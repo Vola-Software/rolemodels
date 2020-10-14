@@ -55,12 +55,14 @@ class SchoolVisitRequestController extends Controller
     {
         $classStages = ClassStage::all();
         $classMajors = ClassMajor::all();
+        $teacherStatuses = config('consts.TEACHER_STATUSES');
         $meetingTypes = config('consts.MEETING_TYPES');
         $participantsCount = config('consts.PARTICIPANTS_COUT');
 
         return view('visit_requests.create', [
             'classStages' => $classStages,
             'classMajors' => $classMajors,
+            'teacherStatuses' => $teacherStatuses,
             'meetingTypes' => $meetingTypes,
             'participantsCount' => $participantsCount
         ]);
@@ -105,6 +107,7 @@ class SchoolVisitRequestController extends Controller
         $schoolVisitRequest = SchoolVisitRequest::find($id);
         $classStages = ClassStage::all();
         $classMajors = ClassMajor::all();
+        $teacherStatuses = config('consts.TEACHER_STATUSES');
         $meetingTypes = config('consts.MEETING_TYPES');
         $participantsCount = config('consts.PARTICIPANTS_COUT');
 
@@ -112,6 +115,7 @@ class SchoolVisitRequestController extends Controller
             'visitRequest' => $schoolVisitRequest,
             'classStages' => $classStages,
             'classMajors' => $classMajors,
+            'teacherStatuses' => $teacherStatuses,
             'meetingTypes' => $meetingTypes,
             'participantsCount' => $participantsCount
         ]);

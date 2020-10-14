@@ -52,7 +52,7 @@ class RegisterController extends Controller
         $schools = School::with(['city'])->get();
         $subjects = Subject::all();
         $companies = Company::all();
-        $cities = City::all();
+        $cities = City::orderBy('type')->orderBy('name')->get();
 
         if(request()->role){
             $role = request()->role;
@@ -87,6 +87,8 @@ class RegisterController extends Controller
             'phone' => ['required_if:role,teacher'], 
             'school_id' => ['required_if:role,teacher'],
             'subject_ids' => ['required_if:role,teacher'],
+            'news_school_name' => ['required_if:school_id,9999'],
+            'new_school_city_id' => ['required_if:school_id,9999'],
 
             'company_id' => ['required_if:role,professional'],
             'position' => ['required_if:role,professional'], 

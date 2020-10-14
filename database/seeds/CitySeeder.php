@@ -82,6 +82,101 @@ class CitySeeder extends Seeder
                 'region_id' => 22,
                 'name' => 'Пирдоп'
             ],
+            [
+                'id' => 32,
+                'region_id' => 1,
+                'name' => 'Благоевград'
+            ],
+            [
+                'id' => 33,
+                'region_id' => 5,
+                'name' => 'Видин'
+            ],
+            [
+                'id' => 34,
+                'region_id' => 6,
+                'name' => 'Враца'
+            ],
+            [
+                'id' => 35,
+                'region_id' => 7,
+                'name' => 'Габрово'
+            ],
+            [
+                'id' => 36,
+                'region_id' => 8,
+                'name' => 'Добрич'
+            ],
+            [
+                'id' => 37,
+                'region_id' => 9,
+                'name' => 'Кърджали'
+            ],
+            [
+                'id' => 38,
+                'region_id' => 10,
+                'name' => 'Кюстендил'
+            ],
+            [
+                'id' => 39,
+                'region_id' => 11,
+                'name' => 'Кюстендил'
+            ],
+            [
+                'id' => 40,
+                'region_id' => 12,
+                'name' => 'Монтана'
+            ],
+            [
+                'id' => 41,
+                'region_id' => 14,
+                'name' => 'Перник'
+            ],
+            [
+                'id' => 42,
+                'region_id' => 18,
+                'name' => 'Русе'
+            ],
+            [
+                'id' => 43,
+                'region_id' => 19,
+                'name' => 'Силистра'
+            ],
+            [
+                'id' => 44,
+                'region_id' => 20,
+                'name' => 'Сливен'
+            ],
+            [
+                'id' => 45,
+                'region_id' => 21,
+                'name' => 'Смолян'
+            ],
+            [
+                'id' => 46,
+                'region_id' => 22,
+                'name' => 'София област'
+            ],
+            [
+                'id' => 47,
+                'region_id' => 25,
+                'name' => 'Търговище'
+            ],
+            [
+                'id' => 48,
+                'region_id' => 26,
+                'name' => 'Хасково'
+            ],
+            [
+                'id' => 49,
+                'region_id' => 27,
+                'name' => 'Шумен'
+            ],
+            [
+                'id' => 50,
+                'region_id' => 28,
+                'name' => 'Ямбол'
+            ]
         ]);
 
         DB::table('cities')->insert([

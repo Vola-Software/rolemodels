@@ -136,7 +136,7 @@
                                     <label for="news_school_name" class="col-md-4 col-form-label text-md-right">Добавете ново училище </label>
 
                                     <div class="col-md-4">
-                                        <input id="news_school_name" type="text" class="form-control @error('news_school_name') is-invalid @enderror" name="news_school_name" value="{{ old('news_school_name') }}" placeholder="Име на ново училище">
+                                        <input id="news_school_name" type="text" class="form-control @error('news_school_name') is-invalid @enderror" name="news_school_name" value="{{ old('news_school_name') }}" placeholder="Име на ново училище *">
                                     </div>
 
                                     <div class="col-md-4">
@@ -145,11 +145,11 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <div class="offset-md-4 col-md-6">
+                                    <div class="offset-md-4 col-md-4">
                                         <select name="new_school_city_id" class="form-control city-select2" id="new_school_city_id">
-                                            <option value="">--- Изберете населено място ---</option>
+                                            <option value="">--- Изберете населено място * ---</option>
                                             @foreach($cities as $city)
-                                                <?php $selected = Helper::is_selected_multiple($city->id, old('new_school_city_id')); ?>
+                                                <?php $selected = Helper::is_selected($city->id, old('new_school_city_id')); ?>
                                                 <option value="{{$city->id}}" {{$selected}}> 
                                                     @if($city->type == 1)
                                                         град 
@@ -166,7 +166,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="subject_ids" class="col-md-4 col-form-label text-md-right">Преподавани предмети *</label>
+                                <label for="subject_ids" class="col-md-4 col-form-label text-md-right">Преподавани предмети (избери всички подходящи опции) *</label>
 
                                 <div class="col-md-4">
                                     <select name="subject_ids[]" class="form-control subjects-select2" id="subject_ids" multiple required>
@@ -231,10 +231,14 @@
             //if school is Other
             if(schoolId == 9999) {
                 $('#new_school_section').show();
+                $('#news_school_name').prop('required',true);
+                $('#new_school_city_id').prop('required',true);
             } else {
                 $('#news_school_name').val('');
                 $('#news_school_website').val('');
                 $('#new_school_city_id').val('');
+                $('#news_school_name').prop('required',false);
+                $('#new_school_city_id').prop('required',false);
                 $('#new_school_section').hide();
 
             }

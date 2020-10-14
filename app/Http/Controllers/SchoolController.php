@@ -118,6 +118,7 @@ class SchoolController extends Controller
     {
         $school = School::find($id);
         $school->is_approved = 1;
+        $school->updated_by = \Auth::id();
         $school->save();
 
         //Set the ID of creator of the school to school ID

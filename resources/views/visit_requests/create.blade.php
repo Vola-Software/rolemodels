@@ -26,6 +26,19 @@
 					@csrf
 
                     <div class="form-group row">
+                        <label for="teacher_status" class="col-md-6 col-form-label text-md-right">Аз съм *</label>
+                        <div class="col-md-4">
+                            <select name="teacher_status" id="teacher_status" class="form-control" required>
+                                <option value=""> --- Изберете опция ---</option>
+                                @foreach($teacherStatuses as $key => $value)
+                                    <?php $selected = Helper::is_selected(old('teacher_status'), $key); ?>
+                                    <option value="{{$key}}" {{$selected}}> {{$value}} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label for="phone_calls_time" class="col-md-6 col-form-label text-md-right">Удобно време за телефонен разговор (при необходимност) *</label>
                         <div class="col-md-6">
                             <input id="phone_calls_time" type="text" class="form-control @error('phone_calls_time') is-invalid @enderror" name="phone_calls_time" value="{{ old('phone_calls_time') }}" required autocomplete="name" autofocus>
@@ -59,9 +72,9 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="students_details" class="col-md-6 col-form-label text-md-right">Специфика на учениците? (нещо, което желаеш "Ролевият модел" да знае предварително, специални потребности, интереси, цели на класната стая, личната ти визия...)</label>
+                        <label for="students_details" class="col-md-6 col-form-label text-md-right">Специфика на учениците? (нещо, което желаеш "Ролевият модел" да знае предварително, специални потребности, интереси, цели на класната стая, личната ти визия...) *</label>
                         <div class="col-md-6">
-                            <textarea id="students_details" name="students_details" class="form-control">{{old('students_details')}}</textarea>
+                            <textarea id="students_details" name="students_details" class="form-control" required>{{old('students_details')}}</textarea>
                         </div>
                     </div>
 

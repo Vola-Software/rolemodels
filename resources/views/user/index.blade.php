@@ -10,9 +10,9 @@
 @section('content')
 @include('includes.flash_msgs')
 <div class="main-card mb-3 card mt-4">
-	<div class="card-header-tab card-header-tab-animation card-header">
-		<div class="card-header-title font-size-lg text-capitalize font-weight-normal">
-			<i class="fas fa-users"></i>Потребители
+    <div class="card-header-tab card-header-tab-animation card-header">
+        <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
+            <i class="fas fa-users"></i>Потребители
         </div>
         <ul class="nav">
             <li class="nav-item"><a data-toggle="tab" href="#tab-professionals" class="active nav-link">Професионалисти</a></li>
@@ -21,10 +21,10 @@
                 <li class="nav-item"><a data-toggle="tab" href="#tab-admins" class="nav-link">Администратори</a></li>
             @endif
         </ul>
-	</div>
-	
-	<div class="card-body">
-		<div class="tab-content">
+    </div>
+    
+    <div class="card-body">
+        <div class="tab-content">
             <div class="tab-pane active" id="tab-professionals" role="tabpanel">
                 <table style="width: 100%;" id="professionalsTable" class="table table-hover table-striped table-bordered table-responsive">
                     <thead>
@@ -48,13 +48,25 @@
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$professional->fullNames}}</td>
                                 <td>{{$professional->role->name}}</td>
-                                <td>{{$professional->professional->position}}</td>
-                                <td>{{$professional->professional->company->name}}</td>
-                                <td>{{$professional->professional->company->city->name}}</td>
+                                <td>
+                                    @if($professional->professional)
+                                        {{$professional->professional->position}}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($professional->professional)
+                                        {{$professional->professional->company->name}}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($professional->professional)
+                                        {{$professional->professional->company->city->name}}
+                                    @endif
+                                </td>
                                 <td>{{$professional->email}}</td>
                                 <td>{{$professional->phone}}</td>
                                 <td>
-                                    @if($professional->professional->schoolVisits)
+                                    @if($professional->professional && $professional->professional->schoolVisits)
                                         {{$professional->professional->schoolVisits->count()}}
                                     @else 
                                         0
@@ -74,8 +86,8 @@
             </div>
 
             @if(Auth::user()->hasAdminAccess())
-    			<div class="tab-pane" id="tab-teachers" role="tabpanel">
-    				<table style="width: 100%;" id="teachersTable" class="table table-hover table-striped table-bordered table-responsive">
+                <div class="tab-pane" id="tab-teachers" role="tabpanel">
+                    <table style="width: 100%;" id="teachersTable" class="table table-hover table-striped table-bordered table-responsive">
                         <thead>
                             <tr>
                                 <th>№</th>
@@ -95,12 +107,24 @@
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$teacher->fullNames}}</td>
-                                    <td>{{$teacher->teacher->school->name}}</td>
-                                    <td>{{$teacher->teacher->school->city->name}}</td>
+                                    <td>
+                                        @if($teacher->teacher)
+                                            {{$teacher->teacher->school->name}}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($teacher->teacher)
+                                            {{$teacher->teacher->school->city->name}}
+                                        @endif
+                                    </td>
                                     <td></td>
                                     <td>{{$teacher->email}}</td>
                                     <td>{{$teacher->phone}}</td>
-                                    <td>{{$teacher->teacher->schoolVisitRequests->count()}}</td>
+                                    <td>
+                                        @if($teacher->teacher && $teacher->teacher->schoolVisitRequest)
+                                            {{$teacher->teacher->schoolVisitRequests->count()}}
+                                        @endif
+                                    </td>
                                     <td>{{$teacher->created_at}}</td>
                                     <td></td>
                                 </tr>
@@ -112,7 +136,7 @@
                             @endforelse
                         </tbody>
                     </table>
-    			</div>
+                </div>
 
                 <div class="tab-pane" id="tab-admins" role="tabpanel">
                     <table style="width: 100%;" id="adminsTable" class="table table-hover table-striped table-bordered table-responsive">
@@ -148,8 +172,8 @@
                     </table>
                 </div>
             @endif
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 @endsection
 

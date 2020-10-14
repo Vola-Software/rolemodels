@@ -24,10 +24,11 @@ class ManageSchoolVisitRequest extends FormRequest
     public function rules()
     {
         return [
+            'teacher_status' => ['required', 'string'],
             'phone_calls_time' => ['required', 'string'],
             'class_stage_id' => ['required', 'numeric'],
             'class_major_id' => ['nullable', 'numeric'],
-            'students_details' => ['nullable', 'string'],
+            'students_details' => ['required', 'string'],
             'role_model_profession' => ['required', 'string'],
             'meeting_type' => ['required', 'string'],
             'visit_time' => ['required', 'string'],
@@ -39,6 +40,7 @@ class ManageSchoolVisitRequest extends FormRequest
     public function messages()
     {
         return [
+            'teacher_status' => 'Аз съм',
             'phone_calls_time' => 'Удобно време за телефонен разговор',
             'class_stage_id' => 'Клас, който желаеш да запишеш и "Ролевия модел" може да посети',
             'class_major_id' => 'Профил на учениците (за гимназиален етап)',

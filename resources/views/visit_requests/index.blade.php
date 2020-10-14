@@ -40,6 +40,7 @@
                             @if(!$isTeacher)
                                 <th>Учител</th>
                                 <th>Училище</th>
+                                <th>ЗвЧ статус</th>
                             @endif
                             <th>Удобно време за тел. разговор</th>
                             <th>Класове</th>
@@ -63,9 +64,16 @@
                                 <td>{{$loop->iteration}}</td>
                                 @if(!$isTeacher)
                                     <td>
-                                        {{$visitRequest->teacher->user->fullNames}}
+                                        @if($visitRequest->teacher && $visitRequest->teacher->user)
+                                            {{$visitRequest->teacher->user->fullNames}}
+                                        @endif
                                     </td>
-                                    <td>{{$visitRequest->teacher->school->name}}</td>
+                                    <td>
+                                        @if($visitRequest->teacher && $visitRequest->teacher->school)
+                                            {{$visitRequest->teacher->school->name}}
+                                        @endif
+                                    </td>
+                                    <td>{{$visitRequest->teacher_status}}</td>
                                 @endif
                                 <td>{{$visitRequest->phone_calls_time}}</td>
                                 <td>
@@ -92,8 +100,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if($visitRequest->schoolVisit)
-                                        {{$visitRequest->schoolVisit->professional->user->fullNames}} от {{$visitRequest->schoolVisit->professional->company->name}}
+                                    @if($visitRequest->schoolVisit && $visitRequest->schoolVisit->professional)
+                                        @if($visitRequest->schoolVisit->professional->user)
+                                            {{$visitRequest->schoolVisit->professional->user->fullNames}} от
+                                        @endif 
+                                        @if($visitRequest->schoolVisit->professional->company)
+                                            {{$visitRequest->schoolVisit->professional->company->name}}
+                                        @endif
                                     @endif
                                 </td>
                                 <td></td>

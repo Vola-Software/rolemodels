@@ -65,7 +65,7 @@
                                     @if($school->is_approved == 0)
                                         <form action='{{ url("/schools/$school->id/approve") }}' method="POST">
                                             @csrf
-                                            <button class="btn btn-warning deleteBtn" title="Потвърди"> Потвърди </button>
+                                            <button class="btn btn-warning approveBtn" title="Потвърди"> Потвърди </button>
                                         </form>
                                     @endif
 
@@ -106,6 +106,17 @@
 
         $('.deleteBtn').on('click',function(e){
             let answer = confirm('Сигурни ли сте, че искате да изтриете този запис?');
+
+            if(answer){
+             $(this).parents("form").submit();
+            }
+            else{
+             e.preventDefault();      
+            }
+        });
+
+        $('.approveBtn').on('click',function(e){
+            let answer = confirm('Сигурни ли сте, че искате да потвърдите това училище?');
 
             if(answer){
              $(this).parents("form").submit();

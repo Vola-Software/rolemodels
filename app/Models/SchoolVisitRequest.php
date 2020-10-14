@@ -10,7 +10,7 @@ class SchoolVisitRequest extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'teacher_id', 'phone_calls_time', 'students_details', 'class_stage_id', 'class_major_id', 'role_model_profession', 'meeting_type', 'visit_time', 'potential_participants_count', 'tech_equipment', 'company_id', 'request_status_id', 'school_year', 'term', 'created_by', 'approved_by', 'approved_at'
+        'teacher_id', 'teacher_status', 'phone_calls_time', 'students_details', 'class_stage_id', 'class_major_id', 'role_model_profession', 'meeting_type', 'visit_time', 'potential_participants_count', 'tech_equipment', 'company_id', 'request_status_id', 'school_year', 'term', 'created_by', 'approved_by', 'approved_at'
     ];
 
     protected $primaryKey = 'id';
