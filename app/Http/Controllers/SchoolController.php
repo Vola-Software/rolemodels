@@ -48,6 +48,9 @@ class SchoolController extends Controller
     {
         $validated = $request->validated();
         $validated['created_by'] = \Auth::id();
+        $lastSchool = School::where('id', '<', config('consts.SCHOOL_ID_OTHER'))->orderBy('id', 'desc')->first();
+        $newSchoolId = $lastSchool->id + 1;
+        $validated['id'] = $newSchoolId;
 
         School::create($validated);
 

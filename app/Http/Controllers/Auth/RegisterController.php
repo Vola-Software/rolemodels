@@ -119,12 +119,13 @@ class RegisterController extends Controller
 
                 $teacher->subjects()->attach($data['subject_ids']);
 
-                //fetch last ID (except School Other)
-                $lastSchool = School::where('id', '<', config('consts.SCHOOL_ID_OTHER'))->orderBy('id', 'desc')->first();
-                $newSchoolId = $lastSchool->id + 1;
                 //if selected Other for school - add new school with status not approved
                 if($data['school_id'] == config('consts.SCHOOL_ID_OTHER')){
-                    School::create([
+                    //fetch last ID (except School Other)
+                    $lastSchool = School::where('id', '<', config('consts.SCHOOL_ID_OTHER'))->orderBy('id', 'desc')->first();
+                    $newSchoolId = $lastSchool->id + 1;
+
+                    $newSchool = School::create([
                         'id' => $newSchoolId,
                         'name' => $data['news_school_name'],
                         'website' => $data['news_school_website'],
@@ -132,6 +133,9 @@ class RegisterController extends Controller
                         'is_approved' => false,
                         'created_by' => $user->id
                     ]);
+
+                    $teacher->school_id = $newSchool->id;
+                    $teacher->save();
                 }
             } else {
                 //Register professional

@@ -59,7 +59,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if($professional->professional)
+                                    @if($professional->professional && $professional->professional->company)
                                         {{$professional->professional->company->city->name}}
                                     @endif
                                 </td>
@@ -108,12 +108,15 @@
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$teacher->fullNames}}</td>
                                     <td>
-                                        @if($teacher->teacher)
+                                        @if($teacher->teacher && $teacher->teacher->school)
                                             {{$teacher->teacher->school->name}}
+                                            @if(!$teacher->teacher->school->is_approved)
+                                                <i class="fas fa-exclamation-circle" title="Непотвърдено у-ще"></i>
+                                            @endif
                                         @endif
                                     </td>
                                     <td>
-                                        @if($teacher->teacher)
+                                        @if($teacher->teacher && $teacher->teacher->school)
                                             {{$teacher->teacher->school->city->name}}
                                         @endif
                                     </td>
@@ -121,7 +124,7 @@
                                     <td>{{$teacher->email}}</td>
                                     <td>{{$teacher->phone}}</td>
                                     <td>
-                                        @if($teacher->teacher && $teacher->teacher->schoolVisitRequest)
+                                        @if($teacher->teacher)
                                             {{$teacher->teacher->schoolVisitRequests->count()}}
                                         @endif
                                     </td>

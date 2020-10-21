@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'HomeController@welcome');
-Route::get('/useful-resources/safeguard-policy', 'HomeController@downloadSafeguardPolicy');
+Route::get('/useful-resources/{fileName}', 'HomeController@downloadUsefulResource');
 
 Auth::routes();
 

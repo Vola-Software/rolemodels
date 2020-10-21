@@ -25,6 +25,7 @@ class CityRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'type' => 'required',
             'region_id' => 'required'
         ];
     }
@@ -33,6 +34,7 @@ class CityRequest extends FormRequest
     {
         return [
             'name' => 'Име',
+            'type' => 'Тип населено място',
             'region_id' => 'Регион'
         ];
     }

@@ -30,11 +30,11 @@ class HomeController extends Controller
         return view('welcome');
     }
 
-    public function downloadSafeguardPolicy()
+    public function downloadUsefulResource($fileName)
     {
-        $file = public_path()."/resources/Safeguarding children policy final Sep 2018.pdf";
+        $file = public_path()."/resources/$fileName";
         $headers = array('Content-Type: application/pdf',);
 
-        return \Response::download($file, 'Safeguarding children policy final Sep 2018.pdf', $headers);
+        return \Response::download($file, $fileName, $headers);
     }
 }

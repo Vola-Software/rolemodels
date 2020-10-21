@@ -62,9 +62,21 @@
 				<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-lg">
 					<div class="scroll-area-xs">
 						<div class="scrollbar-container">
-							<a class="dropdown-item" href="{{url('/useful-resources/safeguard-policy')}}">
+							<a class="dropdown-item" href="{{url('/useful-resources/Checklist.pdf')}}">
+								<i class="fas fa-file-download"></i>
+								Чеклист за работа с ролеви модел
+							</a>
+							<a class="dropdown-item" href="{{url('/useful-resources/Safeguarding_Children_Policy_Final_Sep_2018.pdf')}}">
 								<i class="fas fa-file-download"></i>
 								Вътрешноорганизационна политика за действия при деца в риск
+							</a>
+							<a class="dropdown-item" href="{{url('/useful-resources/Важни_важности_за_ролевите_модели_в_класната_стая.pdf')}}">
+								<i class="fas fa-file-download"></i>
+								Важни детайли
+							</a>
+							<a class="dropdown-item" href="{{url('/useful-resources/История_от_класната_стая.pdf')}}">
+								<i class="fas fa-file-download"></i>
+								История от класната стая
 							</a>
 						</div>
 					</div>

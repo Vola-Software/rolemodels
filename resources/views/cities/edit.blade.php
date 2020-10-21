@@ -34,6 +34,24 @@
                     </div>
 
                     <div class="form-group row">
+                        <label for="type" class="col-md-3 col-form-label text-md-right">
+                            Тип населено място *
+                        </label>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <?php $checked = Helper::is_checked($city->type, 1); ?>
+                                <input type="radio" name="type" class="form-check-input" value="1" id="1" {{$checked}} required>
+                                <label class="form-check-label" for="1">град</label>
+                            </div>
+                            <div class="form-check">
+                                <?php $checked = Helper::is_checked($city->type, 2); ?>
+                                <input type="radio" name="type" class="form-check-input" value="2" id="2" {{$checked}} required> 
+                                <label class="form-check-label" for="2">село</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label for="region_id" class="col-md-3 col-form-label text-md-right">Регион *</label>
                         <div class="col-md-4">
                             <select name="region_id" id="region_id" class="form-control" required>

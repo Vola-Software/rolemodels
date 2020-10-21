@@ -176,6 +176,11 @@ class CitySeeder extends Seeder
                 'id' => 50,
                 'region_id' => 28,
                 'name' => 'Ямбол'
+            ],
+            [
+                'id' => 51,
+                'region_id' => 22,
+                'name' => 'Долна баня'
             ]
         ]);
 

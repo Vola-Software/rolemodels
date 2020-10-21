@@ -25,6 +25,7 @@
                             <th>№</th>
                             <th>Учител</th>
                             <th>Телефон</th>
+                            <th>Ел. поща</th>
                             <th>Училище</th>
                             <th>Удобно време за тел. разговор</th>
                             <th>Класове</th>
@@ -52,6 +53,7 @@
                                         <i class="fas fa-phone"></i> {{$visitRequest->teacher->user->phone}} 
                                     </a>
                                 </td>
+                                <td>{{$visitRequest->teacher->user->email}}</td>
                                 <td>{{$visitRequest->teacher->school->name}}</td>
                                 <td>{{$visitRequest->phone_calls_time}}</td>
                                 <td>

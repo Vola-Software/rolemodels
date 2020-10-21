@@ -18,15 +18,15 @@ class CreateSchoolVisitRequestsTable extends Migration
             $table->unsignedBigInteger('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('teachers')->onUpdate('cascade')->onDelete('cascade');
             $table->enum('teacher_status', ['преподаващ алум', 'учител първа година', 'учител втора година']);
-            $table->string('phone_calls_time')->nullable();
-            $table->string('students_details')->nullable();
+            $table->string('phone_calls_time', 250)->nullable();
+            $table->string('students_details', 1200)->nullable();
             $table->unsignedBigInteger('class_stage_id');
             $table->foreign('class_stage_id')->references('id')->on('class_stages')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('class_major_id')->nullable();
             $table->foreign('class_major_id')->references('id')->on('class_majors')->onUpdate('cascade')->onDelete('cascade');
             $table->string('role_model_profession');
             $table->enum('meeting_type', ['на живо', 'онлайн', 'нямам предпочитания'])->comment('live/online/both');
-            $table->string('visit_time');
+            $table->string('visit_time', 250);
             $table->enum('potential_participants_count', ['5-10', '11-15', '16-20', 'над 20']);
             $table->string('tech_equipment')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
