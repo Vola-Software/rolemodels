@@ -41,7 +41,7 @@
                     <div class="form-group row">
                         <label for="phone_calls_time" class="col-md-6 col-form-label text-md-right">Удобно време за телефонен разговор (при необходимност) *</label>
                         <div class="col-md-6">
-                            <input id="phone_calls_time" type="text" class="form-control @error('phone_calls_time') is-invalid @enderror" name="phone_calls_time" value="{{ old('phone_calls_time') }}" required autocomplete="name" autofocus>
+                            <input id="phone_calls_time" type="text" class="form-control @error('phone_calls_time') is-invalid @enderror" name="phone_calls_time" value="{{ old('phone_calls_time') }}" maxlength="250" required autofocus>
                         </div>
                     </div>
 
@@ -74,14 +74,14 @@
                     <div class="form-group row">
                         <label for="students_details" class="col-md-6 col-form-label text-md-right">Специфика на учениците? (нещо, което желаеш "Ролевият модел" да знае предварително, специални потребности, интереси, цели на класната стая, личната ти визия...) *</label>
                         <div class="col-md-6">
-                            <textarea id="students_details" name="students_details" class="form-control" required>{{old('students_details')}}</textarea>
+                            <textarea id="students_details" name="students_details" class="form-control" maxlength="1200" required>{{old('students_details')}}</textarea>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="role_model_profession" class="col-md-6 col-form-label text-md-right">"Ролеви модел" от коя сфера искаш да ви псоети? *</label>
                         <div class="col-md-6">
-                            <input id="role_model_profession" type="text" class="form-control @error('role_model_profession') is-invalid @enderror" name="role_model_profession" value="{{ old('role_model_profession') }}" required>
+                            <input id="role_model_profession" type="text" class="form-control @error('role_model_profession') is-invalid @enderror" name="role_model_profession" value="{{ old('role_model_profession') }}" maxlength="190" required>
                         </div>
                     </div>
 
@@ -101,7 +101,7 @@
                     <div class="form-group row">
                         <label for="visit_time" class="col-md-6 col-form-label text-md-right">Удобно време за посещение - ден и час (кога имаш часове с този клас или кое е удобно извънкласно време; можеш да добавиш няколко възможности) *</label>
                         <div class="col-md-6">
-                            <input id="visit_time" type="text" class="form-control @error('visit_time') is-invalid @enderror" name="visit_time" value="{{ old('visit_time') }}" required>
+                            <input id="visit_time" type="text" class="form-control @error('visit_time') is-invalid @enderror" name="visit_time" value="{{ old('visit_time') }}" maxlength="250" required>
                         </div>
                     </div>
 
