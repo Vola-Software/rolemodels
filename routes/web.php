@@ -31,5 +31,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/visits/approve/{schoolVisitRequest}', 'SchoolVisitRequestController@approve');
     Route::post('/visits/assign/{schoolVisitRequest}', 'SchoolVisitRequestController@assign');
     Route::post('/visits/approve-all', 'SchoolVisitRequestController@approveAll');
+    Route::post('/visits/cancel/{schoolVisitRequest}', 'SchoolVisitRequestController@cancelVisit');
     Route::get('/my-visits', 'SchoolVisitRequestController@mySchoolVisits');
 });

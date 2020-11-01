@@ -8,6 +8,8 @@ use App\Models\Teacher;
 use App\Models\ClassStage;
 use App\Models\ClassMajor;
 use App\Http\Requests\ManageSchoolVisitRequest;
+use App\Mail\SchoolVisitRequestApproved;
+use App\Mail\SchoolVisitRequestCanceled;
 use Illuminate\Http\Request;
 
 class SchoolVisitRequestController extends Controller
@@ -191,21 +193,32 @@ class SchoolVisitRequestController extends Controller
     //Role model signs for a school visit
     public function assign(SchoolVisitRequest $schoolVisitRequest)
     {
+        if(\Auth::user()->role_id != config('consts.ROLE_ID_PROFESSIONAL') && \Auth::user()->role_id != config('consts.ROLE_ID_COMPANY_ADMIN')) {
+            return redirect('/visits')->with('msg_delete', 'Нямате право да достъпвате търсената страница!');
+        }
+
         try{
             \DB::beginTransaction();
             $schoolVisitRequest->request_status_id = config('consts.REQUEST_STATUS_ASSIGNED_RM');
             $schoolVisitRequest->updated_by = \Auth::id();
             $schoolVisitRequest->save();
 
-            SchoolVisit::create([
+            $schoolVisit = SchoolVisit::create([
                 'school_visit_request_id' => $schoolVisitRequest->id,
                 'professional_id' => \Auth::user()->professional->id
             ]);
 
             \DB::commit();
 
+            if($schoolVisitRequest->teacher && $schoolVisitRequest->teacher->user)
+            {
+                \Mail::to($schoolVisitRequest->teacher->user->email)
+                    ->bcc('e.kadiyski@gmail.com')
+                    ->queue(new SchoolVisitRequestApproved($schoolVisit));
+            }
+
             $school = $schoolVisitRequest->teacher->school->name;
-        return \Redirect::back()->with('msg_success', "Поздравления! Посещението с ИД $schoolVisitRequest->id в училище $school беше успешно заявено! Свържете се с учителя, за да уточните детайли относно посещението.");
+            return redirect('my-visits')->with('msg_success', "Поздравления! Посещението с ИД $schoolVisitRequest->id в училище $school беше успешно заявено! Свържете се с учителя, за да уточните детайли относно посещението.");
         } catch (Exception $e) {
             \DB::rollBack();
         }
@@ -214,10 +227,45 @@ class SchoolVisitRequestController extends Controller
     //List of assigned school visits for a role model
     public function mySchoolVisits()
     {
+        if(\Auth::user()->role_id != config('consts.ROLE_ID_PROFESSIONAL') && \Auth::user()->role_id != config('consts.ROLE_ID_COMPANY_ADMIN')) {
+            return redirect('/visits')->with('msg_delete', 'Нямате право да достъпвате търсената страница!');
+        }
+
         $schoolVisits = SchoolVisit::fetchMyVisits();
 
         return view('visits.myvisits', [
             'schoolVisits' => $schoolVisits
         ]);
+    }
+
+    public function cancelVisit(SchoolVisitRequest $schoolVisitRequest)
+    {
+        if(\Auth::user()->role_id != config('consts.ROLE_ID_PROFESSIONAL') && \Auth::user()->role_id != config('consts.ROLE_ID_COMPANY_ADMIN')) {
+            return redirect('/visits')->with('msg_delete', 'Нямате право да достъпвате търсената страница!');
+        }
+        
+        try{
+            \DB::beginTransaction();
+            $schoolVisitRequest->request_status_id = config('consts.REQUEST_STATUS_APPROVED');
+            $schoolVisitRequest->updated_by = \Auth::id();
+            $schoolVisitRequest->save();
+
+            $schoolVisit = $schoolVisitRequest->schoolVisit;
+            $schoolVisit->delete();
+
+            \DB::commit();
+
+            if($schoolVisitRequest->teacher && $schoolVisitRequest->teacher->user)
+            {
+                \Mail::to($schoolVisitRequest->teacher->user->email)
+                    ->bcc('e.kadiyski@gmail.com')
+                    ->queue(new SchoolVisitRequestCanceled($schoolVisitRequest));
+            }
+
+            $school = $schoolVisitRequest->teacher->school->name;
+            return redirect('visits')->with('msg_delete', "Посещението в училище $school беше отменено!");
+        } catch (Exception $e) {
+            \DB::rollBack();
+        }
     }
 }

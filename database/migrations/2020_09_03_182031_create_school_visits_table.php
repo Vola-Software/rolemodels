@@ -20,6 +20,7 @@ class CreateSchoolVisitsTable extends Migration
             $table->unsignedBigInteger('professional_id');
             $table->foreign('professional_id')->references('id')->on('professionals')->onUpdate('cascade')->onDelete('cascade');
             $table->date('date')->nullable();
+            $table->stirng('online_session_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
