@@ -11,7 +11,7 @@ class ExceptionOccured extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $content; 
+    public $content;
 
     /**
      * Create a new message instance.
