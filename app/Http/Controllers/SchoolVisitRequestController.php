@@ -30,11 +30,13 @@ class SchoolVisitRequestController extends Controller
         if(\Auth::check()){
             $isTeacher = \Auth::user()->isTeacher();
             $isProfessional = \Auth::user()->isProfessional();
+            $isCompanyAdmin = \Auth::user()->isCompanyAdmin();
             $hasAdminAccess = \Auth::user()->hasAdminAccess();
             $pendingRequestsCount = SchoolVisitRequest::pendingRequestsQuery()->get()->count();
         } else {
             $isTeacher = false;
             $isProfessional = false;
+            $isCompanyAdmin = false;
             $hasAdminAccess = false;
             $pendingRequestsCount = 0;
         }
@@ -43,6 +45,7 @@ class SchoolVisitRequestController extends Controller
             'visitRequests' => $visitRequests,
             'isTeacher' => $isTeacher,
             'isProfessional' => $isProfessional,
+            'isCompanyAdmin' => $isCompanyAdmin,
             'hasAdminAccess' => $hasAdminAccess,
             'pendingRequestsCount' => $pendingRequestsCount
         ]);
@@ -224,15 +227,19 @@ class SchoolVisitRequestController extends Controller
         }
     }
 
-    //List of assigned school visits for a role model
+    //List of assigned school visits for a role model or within a company (when in role CompanyAdmin)
     public function mySchoolVisits()
     {
         if(\Auth::user()->role_id != config('consts.ROLE_ID_PROFESSIONAL') && \Auth::user()->role_id != config('consts.ROLE_ID_COMPANY_ADMIN')) {
             return redirect('/visits')->with('msg_delete', 'Нямате право да достъпвате търсената страница!');
         }
 
-        $schoolVisits = SchoolVisit::fetchMyVisits();
-
+        if(\Auth::user()->role_id === config('consts.ROLE_ID_PROFESSIONAL')){
+            $schoolVisits = SchoolVisit::fetchMyVisits();
+        } elseif (\Auth::user()->role_id === config('consts.ROLE_ID_COMPANY_ADMIN')) {
+            $schoolVisits = SchoolVisit::fetchCompanyVisits();
+        }
+        
         return view('visits.myvisits', [
             'schoolVisits' => $schoolVisits
         ]);

@@ -37,7 +37,6 @@
                             <th>Населено място</th>
                             <th>Ел. поща</th>
                             <th>Телефон</th>
-                            <th>Брой посещения</th>
                             <th>Дата на регистрация</th>
                             <th></th>
                         </tr>
@@ -46,32 +45,19 @@
                         @forelse($professionals as $professional)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$professional->fullNames}}</td>
-                                <td>{{$professional->role->name}}</td>
+                                <td>{{$professional->first_name}} {{$professional->last_name}}</td>
+                                <td>{{$professional->role_name}}</td>
                                 <td>
-                                    @if($professional->professional)
-                                        {{$professional->professional->position}}
-                                    @endif
+                                    {{$professional->position}}
                                 </td>
                                 <td>
-                                    @if($professional->professional)
-                                        {{$professional->professional->company->name}}
-                                    @endif
+                                    {{$professional->company_name}}
                                 </td>
                                 <td>
-                                    @if($professional->professional && $professional->professional->company)
-                                        {{$professional->professional->company->city->name}}
-                                    @endif
+                                    {{$professional->city_name}}
                                 </td>
                                 <td>{{$professional->email}}</td>
                                 <td>{{$professional->phone}}</td>
-                                <td>
-                                    @if($professional->professional && $professional->professional->schoolVisits)
-                                        {{$professional->professional->schoolVisits->count()}}
-                                    @else 
-                                        0
-                                    @endif
-                                </td>
                                 <td>{{$professional->created_at}}</td>
                                 <td></td>
                             </tr>

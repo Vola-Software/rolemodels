@@ -167,6 +167,7 @@
 
                 <div class="row">
                     <!--
+                        TODO: make carousel - https://stackoverflow.com/questions/20007610/bootstrap-carousel-multiple-frames-at-once
                     <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class="card-shadow-primary card-border mb-3 profile-responsive card">
                             <div class="dropdown-menu-header">

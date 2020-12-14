@@ -58,7 +58,7 @@ class SchoolVisitRequest extends Model
 
     public static function fetchRequestsByAuthUser()
     {
-        $visitRequests = self::with(['teacher', 'teacher.user', 'teacher.school', 'classStage', 'classMajor', 'company', 'requestStatus', 'schoolVisit']);
+        $visitRequests = self::with(['teacher', 'teacher.user', 'teacher.school', 'teacher.subjects', 'classStage', 'classMajor', 'company', 'requestStatus', 'schoolVisit']);
         if(!\Auth::check()){
             //For non-registered users (from homepage)
             $visitRequests = $visitRequests->where('request_status_id', config('consts.REQUEST_STATUS_APPROVED'));

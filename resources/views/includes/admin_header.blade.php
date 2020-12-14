@@ -30,6 +30,14 @@
 				</a>
 			</li>
 			@endif
+			@if(Auth::user()->isCompanyAdmin())
+			<li class="dropdown">
+				<a href="{{url('my-visits')}}">
+					<i class="fas fa-building"></i>
+					<span>Посещения от компанията</span>
+				</a>
+			</li>
+			@endif
 			@if(Auth::user()->hasAdminAccess() || Auth::user()->isCompanyAdmin())
 			<li class="dropdown">
 				<a href="{{url('users')}}">
@@ -53,7 +61,7 @@
 			</li>
 			@endif
 
-			@if(Auth::user()->isTeacher())
+			@if(Auth::user()->isTeacher() || Auth::user()->isProfessional())
 			<li class="dropdown">
 				<a  data-toggle="dropdown" data-offset="10" data-display="static" aria-expanded="false">
 					<span>Полезни ресурси </span>
@@ -62,22 +70,24 @@
 				<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-lg">
 					<div class="scroll-area-xs">
 						<div class="scrollbar-container">
-							<a class="dropdown-item" href="{{url('/useful-resources/Checklist.pdf')}}">
-								<i class="fas fa-file-download"></i>
-								Чеклист за работа с ролеви модел
-							</a>
 							<a class="dropdown-item" href="{{url('/useful-resources/Safeguarding_Children_Policy_Final_Sep_2018.pdf')}}">
 								<i class="fas fa-file-download"></i>
 								Вътрешноорганизационна политика за действия при деца в риск
 							</a>
-							<a class="dropdown-item" href="{{url('/useful-resources/Важни_важности_за_ролевите_модели_в_класната_стая.pdf')}}">
-								<i class="fas fa-file-download"></i>
-								Важни детайли
-							</a>
-							<a class="dropdown-item" href="{{url('/useful-resources/История_от_класната_стая.pdf')}}">
-								<i class="fas fa-file-download"></i>
-								История от класната стая
-							</a>
+							@if(Auth::user()->isTeacher())
+								<a class="dropdown-item" href="{{url('/useful-resources/Checklist.pdf')}}">
+									<i class="fas fa-file-download"></i>
+									Чеклист за работа с ролеви модел
+								</a>
+								<a class="dropdown-item" href="{{url('/useful-resources/Важни_важности_за_ролевите_модели_в_класната_стая.pdf')}}">
+									<i class="fas fa-file-download"></i>
+									Важни детайли
+								</a>
+								<a class="dropdown-item" href="{{url('/useful-resources/История_от_класната_стая.pdf')}}">
+									<i class="fas fa-file-download"></i>
+									История от класната стая
+								</a>
+							@endif
 						</div>
 					</div>
 				</div>

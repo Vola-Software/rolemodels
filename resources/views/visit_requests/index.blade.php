@@ -54,18 +54,14 @@
                                 <th>Удобно време за тел. разговор</th>
                             @endif
                             <th>Класове</th>
-                            @if($isTeacher)
+                            @if($isTeacher || $isProfessional)
                                 <th>Специалност</th>
-                                <th>Брой ученици</th>
                             @endif
                             <th>Сфера на ролеви модел</th>
-                            <th>Тип посещение</th>
-                            <th>Удобно време за посещение</th>
                             @if(\Auth::check() && !$isProfessional)
                                 <th>Статус</th>
                                 <th>Ролеви модел</th>
                                 <th>Дата</th>
-                                <th>Дата на създаване</th>
                             @endif
                             <th></th>
                         </tr>
@@ -107,17 +103,14 @@
                                         {{$visitRequest->classStage->name}}
                                     @endif
                                 </td>
-                                 @if($isTeacher)
+                                 @if($isTeacher || $isProfessional)
                                     <td>
                                         @if($visitRequest->classMajor)
-                                            {{$visitRequest->phone_calls_time}}
+                                            {{$visitRequest->classMajor->name}}
                                         @endif
                                     </td>
-                                    <td>{{$visitRequest->potential_participants_count}}</td>
                                 @endif
                                 <td>{{$visitRequest->role_model_profession}}</td>
-                                <td>{{$visitRequest->meeting_type}}</td>
-                                <td>{{$visitRequest->visit_time}}</td>
 
                                 @if(\Auth::check() && !$isProfessional)
                                     <td>
@@ -136,7 +129,6 @@
                                         @endif
                                     </td>
                                     <td></td>
-                                    <td>{{$visitRequest->created_at}}</td>
                                 @endif
                                 <td>
                                     @if(($hasAdminAccess || Auth::id() === $visitRequest->created_by) && $visitRequest->request_status_id < config('consts.REQUEST_STATUS_APPROVED'))
@@ -153,12 +145,13 @@
                                         <form action='{{ url("/visits/approve/$visitRequest->id") }}' method="POST">
                                           @csrf
                                           <button class="btn btn-primary"> Потвърди </button>
-                                      </form>
+                                        </form>
                                     @endif
 
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#schoolVisitModal"
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#schoolVisitModal"
                                         data-id="{{$visitRequest->id}}" 
                                         data-teacher="{{$visitRequest->teacher->user->fullNames}}"
+                                        data-teacher-subjects="{{$visitRequest->teacher->subjects}}"
                                         data-school="{{($visitRequest->teacher && $visitRequest->teacher->school) ? 
                                             $visitRequest->teacher->school->name : '-'}}"
                                         data-city="{{($visitRequest->teacher && $visitRequest->teacher->school) ?
@@ -166,10 +159,12 @@
                                         data-phone-call-time="{{$visitRequest->phone_calls_time}}"
                                         data-classes="{{$visitRequest->classStage ? $visitRequest->classStage->name : '-'}}"
                                         data-class-profile="{{$visitRequest->classMajor ? $visitRequest->classMajor->name : '-'}}"
+                                        data-students-details="{{$visitRequest->students_details}}"
                                         data-role-model-profession="{{$visitRequest->role_model_profession}}"
                                         data-meeting-type="{{$visitRequest->meeting_type}}"
                                         data-visit-time="{{$visitRequest->visit_time}}"
                                         data-students-count="{{$visitRequest->potential_participants_count}}"
+                                        data-tech-equipment="{{$visitRequest->tech_equipment}}"
                                         data-status="{{$visitRequest->requestStatus ? $visitRequest->requestStatus->name : '-'}}"
                                         data-created-at="{{$visitRequest->created_at}}"
                                     >
@@ -201,21 +196,33 @@
       </div>
       <div class="modal-body">
         <p><strong> Учител: </strong> <span class="teacher"></span></p>
+        <p><strong> Преподаван(и) предмет(и): </strong> <span class="teacher-subjects"></span></p>
         <p><strong> Училище: </strong> <span class="school"></span></p>
         <p><strong>Населено място: </strong> <span class="city"></span></p>
         <p><strong>Удобно време за телефонен разговор: </strong> <span class="phone-call-time"></span></p>
         <p><strong>Класове: </strong> <span class="classes"></span></p>
         <p><strong>Профил: </strong> <span class="class-profile"></span></p>
+        <p><strong>Специфика на учениците: </strong> <span class="students-details"></span></p>
         <p><strong>Сфера на ролеви модел: </strong> <span class="role-model-profession"></span></p>
         <p><strong>Тип посещение: </strong> <span class="meeting-type"></span></p>
         <p><strong>Удобно време за посещение: </strong> <span class="visit-time"></span></p>
         <p><strong>Брой ученици, които биха взели участие: </strong> <span class="students-count"></span></p>
+        <p><strong>Техническо оборудване: </strong> <span class="tech-equipment"></span></p>
         <p><strong>Статус: </strong> <span class="status"></span></p>
         <p><strong>Дата на създаване: </strong> <span class="created-at"></span></p>
       </div>
       <div class="modal-footer">
+        @if($isProfessional || $isCompanyAdmin)
+            <strong style="background-color: #fa6"> Заявявайки посещение се съгласявате с 
+            <em>
+                <a href="{{url('/useful-resources/Safeguarding_Children_Policy_Final_Sep_2018.pdf')}}" style="text-decoration: underline;">
+                    политиката за работа с деца в риск
+                </a>
+            </em>
+            </strong>
+        @endif
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
-        @if($isProfessional)
+        @if($isProfessional || $isCompanyAdmin)
             <form class="approve-request-form" action='' method="POST">
               @csrf
               <button class="btn btn-success"> Заяви посещение! </button>
@@ -266,15 +273,22 @@
           //Fetch modal data from html modal button
           var visitRequestId = button.data('id')
           var teacher = button.data('teacher')
+          var teacherSubjectsArr = button.data('teacher-subjects')
+          var teacherSubjects = ''
+          for(var i = 0; i < teacherSubjectsArr.length; i++){
+            teacherSubjects += teacherSubjectsArr[i].name + ' '
+          }
           var school = button.data('school')
           var city = button.data('city')
           var phoneCallTime = button.data('phone-call-time')
           var classes = button.data('classes')
           var classProfile = button.data('class-profile')
+          var studentsDetails = button.data('students-details')
           var roleModelProfession = button.data('role-model-profession')
           var meetingType = button.data('meeting-type')
           var visitTime = button.data('visit-time')
           var studentsCount = button.data('students-count')
+          var techEquipment = button.data('tech-equipment')
           var status = button.data('status')
           var createdAt = button.data('created-at')
 
@@ -284,15 +298,18 @@
           var modal = $(this)
 
           modal.find('.teacher').text(teacher)
+          modal.find('.teacher-subjects').text(teacherSubjects)
           modal.find('.school').text(school)
           modal.find('.city').text(city)
           modal.find('.phone-call-time').text(phoneCallTime)
           modal.find('.classes').text(classes)
           modal.find('.class-profile').text(classProfile)
+          modal.find('.students-details').text(studentsDetails)
           modal.find('.role-model-profession').text(roleModelProfession)
           modal.find('.meeting-type').text(meetingType)
           modal.find('.visit-time').text(visitTime)
           modal.find('.students-count').text(studentsCount)
+          modal.find('.tech-equipment').text(techEquipment)
           modal.find('.status').text(status)
           modal.find('.created-at').text(createdAt)
 

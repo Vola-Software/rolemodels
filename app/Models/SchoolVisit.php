@@ -28,6 +28,16 @@ class SchoolVisit extends Model
 
     public static function fetchMyVisits()
     {
-        return self::with(['schoolVisitRequest', 'schoolVisitRequest.teacher', 'schoolVisitRequest.teacher.user', 'schoolVisitRequest.teacher.school', 'schoolVisitRequest.classStage', 'schoolVisitRequest.classMajor', 'schoolVisitRequest.company', 'schoolVisitRequest.requestStatus'])->where('professional_id', \Auth::user()->professional->id)->get();
+        return self::with(['schoolVisitRequest', 'schoolVisitRequest.teacher', 'schoolVisitRequest.teacher.user', 'schoolVisitRequest.teacher.school', 'schoolVisitRequest.classStage', 'schoolVisitRequest.classMajor', 'schoolVisitRequest.company', 'schoolVisitRequest.requestStatus'])
+            ->where('professional_id', \Auth::user()->professional->id)
+            ->get();
+    }
+
+    public static function fetchCompanyVisits()
+    {
+        return self::with(['schoolVisitRequest', 'schoolVisitRequest.teacher', 'schoolVisitRequest.teacher.user', 'schoolVisitRequest.teacher.school', 'schoolVisitRequest.classStage', 'schoolVisitRequest.classMajor', 'schoolVisitRequest.requestStatus'])
+            ->join('professionals', 'professional_id', '=', 'professionals.id')
+            ->where('professionals.company_id', \Auth::user()->professional->company_id)
+            ->get();
     }
 }

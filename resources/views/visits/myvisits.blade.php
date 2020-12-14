@@ -100,6 +100,10 @@
                                             data-meeting-type="{{$visitRequest->meeting_type}}"
                                             data-visit-time="{{$visitRequest->visit_time}}"
                                             data-students-count="{{$visitRequest->potential_participants_count}}"
+                                            data-logged-user-id="{{Auth::id()}}"
+                                            data-role-model-id="{{$schoolVisit->professional->user->id}}"
+                                            data-role-model="{{$schoolVisit->professional->user->fullNames}}"
+                                            data-role-model-position="{{$schoolVisit->professional->position}}"
                                             data-status="{{$visitRequest->requestStatus ? $visitRequest->requestStatus->name : '-'}}"
                                             data-created-at="{{$visitRequest->created_at}}"
                                             >
@@ -142,6 +146,7 @@
         <p><strong>Тип посещение: </strong> <span class="meeting-type"></span></p>
         <p><strong>Удобно време за посещение: </strong> <span class="visit-time"></span></p>
         <p><strong>Брой ученици, които биха взели участие: </strong> <span class="students-count"></span></p>
+        <p><strong>Ролеви модел: </strong> <span class="role-model"></span></p>
         <p><strong>Статус: </strong> <span class="status"></span></p>
         <p><strong>Дата на създаване: </strong> <span class="created-at"></span></p>
       </div>
@@ -195,8 +200,14 @@
           var meetingType = button.data('meeting-type')
           var visitTime = button.data('visit-time')
           var studentsCount = button.data('students-count')
+          var roleModel = button.data('role-model')
+          var roleModelPosition = button.data('role-model-position')
+          var rmWithPosition = roleModel + ', ' + roleModelPosition
           var status = button.data('status')
           var createdAt = button.data('created-at')
+
+          var roleModelId = button.data('role-model-id')
+          var loggedUserId = button.data('logged-user-id')
 
           var formActionUrl = '/visits/cancel/' + visitRequestId
 
@@ -213,10 +224,17 @@
           modal.find('.meeting-type').text(meetingType)
           modal.find('.visit-time').text(visitTime)
           modal.find('.students-count').text(studentsCount)
+          modal.find('.role-model').text(rmWithPosition)
           modal.find('.status').text(status)
           modal.find('.created-at').text(createdAt)
 
           modal.find('.cancel-request-form').attr('action', formActionUrl)
+          if(roleModelId != loggedUserId){
+            modal.find('.cancel-request-form').hide();
+          } else {
+            modal.find('.cancel-request-form').show();
+          }
+          
         });
     });
 </script>

@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -92,11 +93,42 @@ class User extends Authenticatable
 
     public static function fetchProfessionals()
     {
-        return self::with(['role', 'professional', 'professional.company', 'professional.company.city', 'professional.schoolVisits'])
-                ->where('role_id', config('consts.ROLE_ID_PROFESSIONAL'))
-                ->orWhere('role_id', config('consts.ROLE_ID_COMPANY_ADMIN'))
-                ->get();
+        $userProfessionals = self::join('professionals', 'users.id', '=', 'professionals.user_id')
+            ->join('roles', 'role_id', '=', 'roles.id')
+            ->join('companies', 'professionals.company_id', '=', 'companies.id')
+            ->join('cities', 'companies.city_id', '=', 'cities.id');
+
+        if(\Auth::user()->role_id === config('consts.ROLE_ID_COMPANY_ADMIN')){
+            $userProfessionals->where('professionals.company_id', \Auth::user()->professional->company_id);
+        }
+
+        return $userProfessionals->select('users.first_name', 'users.last_name', 'roles.name as role_name', 'professionals.position', 'companies.name as company_name', 'cities.name as city_name', 'users.email', 'users.phone', 'users.created_at')
+            ->get();
     }
+
+    // public static function fetchProfessionals()
+    // {
+    //     $professionals = self::with('role');
+    //     //$professionals->with('professional');
+    //     //dd(\Auth::user()->professional->company_id);
+    //     $companyId = \Auth::user()->professional ? \Auth::user()->professional->company_id : 1;
+                
+    //     //TODO: user better if checks here
+    //     if(\Auth::user()->role_id === config('consts.ROLE_ID_COMPANY_ADMIN')){
+    //         $professionals->with('professional', function(Builder $query){
+    //             dd('test2');
+    //             $query->where('company_id', $companyId);
+    //         });
+    //     } else {
+    //         $professionals->with('professional');
+    //     }
+
+    //     return $professionals->with(['professional.company', 'professional.company.city', 'professional.schoolVisits'])
+    //         ->where('role_id', config('consts.ROLE_ID_PROFESSIONAL'))
+    //         ->orWhere('role_id', config('consts.ROLE_ID_COMPANY_ADMIN'))
+
+    //         ->get();
+    // }
 
     public static function fetchAdmins()
     {
