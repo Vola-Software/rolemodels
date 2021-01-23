@@ -17,7 +17,7 @@
 <div class="main-card mb-3 card mt-4">
 	<div class="card-header-tab card-header-tab-animation card-header">
 		<div class="card-header-title font-size-lg text-capitalize font-weight-normal">
-			<i class="fas fa-rocket"></i>Заявки за посещение
+			<i class="fas fa-rocket"></i> {{ $prismic->results[0]->data->title[0]->text }}
 		</div>
 	</div>
 	

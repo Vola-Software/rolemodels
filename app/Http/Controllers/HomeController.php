@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Prismic\Api;
+use Prismic\LinkResolver;
+use Prismic\Predicates;
+use Prismic\Dom\RichText;
+use App\Services\GeneralLinkResolver;
 
 class HomeController extends Controller
 {
@@ -27,7 +32,12 @@ class HomeController extends Controller
 
     public function welcome()
     {
-        return view('welcome');
+        $linkResolver = new GeneralLinkResolver();
+        $api = Api::get("https://rolemodelsbg.cdn.prismic.io/api/v2");
+        $response = $api->query(Predicates::at('document.tags', ['home']));
+        $richtext = RichText::asHtml($response->results[0]->data->richtext1, $linkResolver);
+
+        return view('welcome', ['richtext' => $richtext]);
     }
 
     public function downloadUsefulResource($fileName)
