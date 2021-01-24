@@ -33,4 +33,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/visits/approve-all', 'SchoolVisitRequestController@approveAll');
     Route::post('/visits/cancel/{schoolVisitRequest}', 'SchoolVisitRequestController@cancelVisit');
     Route::get('/my-visits', 'SchoolVisitRequestController@mySchoolVisits');
+
+    Route::get('/teacher-poll/{schoolVisit}', 'TeacherPollController@create');
+    Route::post('/teacher-poll-submit', 'TeacherPollController@submit');
+    Route::get('/teacher-poll-show/{teacherPoll}', 'TeacherPollController@show');
+    Route::get('/rolemodel-poll/{schoolVisit}', 'RoleModelPollController@create');
+    Route::post('/rolemodel-poll-submit', 'RoleModelPollController@submit');
+    Route::get('/rolemodel-poll-show/{roleModelPoll}', 'RoleModelPollController@show');
 });

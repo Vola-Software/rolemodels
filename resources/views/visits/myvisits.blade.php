@@ -87,6 +87,16 @@
                                 </td>
                                 <td>{{$schoolVisit->date}}</td>
                                 <td>
+                                    @if($isCompanyAdmin && !empty($visitRequest->schoolVisit->role_model_poll_id))
+                                      <?php $schoolVisitId = $visitRequest->schoolVisit->id; ?>
+                                      <a href='{{url("/rolemodel-poll-show/$schoolVisitId")}}' class="btn btn-success">Виж анкета  </a>
+                                    @endif
+
+                                    @if(!$isCompanyAdmin && empty($visitRequest->schoolVisit->role_model_poll_id))
+                                      <?php $schoolVisitId = $visitRequest->schoolVisit->id; ?>
+                                      <a href='{{url("/rolemodel-poll/$schoolVisitId")}}' class="btn btn-success">Попълни анкета  </a>
+                                    @endif
+                                    
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#schoolVisitModal"
                                             data-id="{{$visitRequest->id}}" 
                                             data-teacher="{{$visitRequest->teacher->user->fullNames}}"
