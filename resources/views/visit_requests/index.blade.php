@@ -128,7 +128,11 @@
                                             @endif
                                         @endif
                                     </td>
-                                    <td></td>
+                                    <td>
+                                        @if($visitRequest->schoolVisit && $visitRequest->schoolVisit->date)
+                                            {{\Carbon\Carbon::parse($visitRequest->schoolVisit->date)->formatLocalized('%d.%m.%Y')}}
+                                        @endif
+                                    </td>
                                 @endif
                                 <td>
                                     @if(($hasAdminAccess || Auth::id() === $visitRequest->created_by) && $visitRequest->request_status_id < config('consts.REQUEST_STATUS_APPROVED'))
@@ -146,6 +150,24 @@
                                           @csrf
                                           <button class="btn btn-primary"> Потвърди </button>
                                         </form>
+                                    @endif
+
+                                    @if($hasAdminAccess && !empty($visitRequest->schoolVisit->teacher_poll_id))
+                                        <?php 
+                                            $teacherPollId = $visitRequest->schoolVisit->teacher_poll_id;
+                                        ?>
+                                        <a href='{{url("/teacher-poll-show/$teacherPollId")}}' class="btn btn-success"> Анкета Учител </a> 
+                                    @endif
+                                    @if($hasAdminAccess && !empty($visitRequest->schoolVisit->role_model_poll_id))
+                                        <?php 
+                                            $roleModelPollId = $visitRequest->schoolVisit->role_model_poll_id;
+                                        ?>
+                                        <a href='{{url("/rolemodel-poll-show/$roleModelPollId")}}' class="btn btn-warning"> Анкета Ролеви Модел </a> 
+                                    @endif
+
+                                    @if($isTeacher && $visitRequest->request_status_id == config('consts.REQUEST_STATUS_ASSIGNED_RM') && empty($visitRequest->schoolVisit->teacher_poll_id))
+                                      <?php $schoolVisitId = $visitRequest->schoolVisit->id; ?>
+                                      <a href='{{url("/teacher-poll/$schoolVisitId")}}' class="btn btn-success">Попълни анкета  </a>
                                     @endif
 
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#schoolVisitModal"
