@@ -123,12 +123,12 @@
                             <div class="col-md-6">
                                 <?php $checked = Helper::is_checked(old('invite_rm_again'), 1); ?>
                                 <div class="form-check">
-                                    <input type="radio" name="invite_rm_again" class="form-check-input" value="1" id="invite_rm_again_yes" {{$checked}}>
+                                    <input type="radio" name="invite_rm_again" class="form-check-input invite_rm_again" value="1" id="invite_rm_again_yes" {{$checked}}>
                                     <label class="form-check-label" for="invite_rm_again_yes">Да</label>
                                 </div>
                                 <?php $checked = Helper::is_checked(old('invite_rm_again'), -1); ?>
                                 <div class="form-check">
-                                    <input type="radio" name="invite_rm_again" class="form-check-input" value="-1" id="invite_rm_again_no" {{$checked}}>
+                                    <input type="radio" name="invite_rm_again" class="form-check-input invite_rm_again" value="-1" id="invite_rm_again_no" {{$checked}}>
                                     <label class="form-check-label" for="invite_rm_again_no">Не</label>
                                 </div>
                             </div>
@@ -182,6 +182,7 @@
     $(document).ready(function() {
         $('#failedVisit').hide();
         $('#accomplishedVisit').hide();
+        $('#why_not_inviting_section').hide();
 
         $( ".did_happen" ).change(function() {
           var didHappen = $('input[name="did_happen"]:checked').val();
@@ -192,6 +193,16 @@
           } else {
             $('#failedVisit').hide();
             $('#accomplishedVisit').show();
+          }
+        });
+
+        $( ".invite_rm_again" ).change(function() {
+          var inviteAgain = $('input[name="invite_rm_again"]:checked').val();
+
+          if(inviteAgain == -1) {
+            $('#why_not_inviting_section').show();
+          } else {
+            $('#why_not_inviting_section').hide();
           }
         });
     });  

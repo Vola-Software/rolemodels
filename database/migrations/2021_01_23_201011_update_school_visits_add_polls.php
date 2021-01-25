@@ -14,9 +14,9 @@ class UpdateSchoolVisitsAddPolls extends Migration
     public function up()
     {
         Schema::table('school_visits', function (Blueprint $table) {
-            $table->unsignedBigInteger('role_model_poll_id')->after('online_session_url');
+            $table->unsignedBigInteger('role_model_poll_id')->nullable()->after('online_session_url');
             $table->foreign('role_model_poll_id')->references('id')->on('role_model_polls');
-            $table->unsignedBigInteger('teacher_poll_id')->after('online_session_url');
+            $table->unsignedBigInteger('teacher_poll_id')->nullable()->after('online_session_url');
             $table->foreign('teacher_poll_id')->references('id')->on('teacher_polls');
         });
     }
