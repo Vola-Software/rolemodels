@@ -23,7 +23,6 @@
             <div>
                 <strong> Клас: </strong> 
                 @if(!empty($schoolVisit->schoolVisitRequest))
-
                     @if(!empty($schoolVisit->schoolVisitRequest->classStage))
                         {{$schoolVisit->schoolVisitRequest->classStage->name}}, 
                     @endif
