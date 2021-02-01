@@ -45,7 +45,7 @@ class ManageSchoolVisitRequest extends FormRequest
             'class_stage_id' => 'Клас, който желаеш да запишеш и "Ролевия модел" може да посети',
             'class_major_id' => 'Профил на учениците (за гимназиален етап)',
             'students_details' => 'Специфика на учениците',
-            'role_model_profession' => '"Ролеви модел" от коя сфера искаш да ви псоети',
+            'role_model_profession' => '"Ролеви модел" от коя сфера искаш да ви посети',
             'meeting_type' => 'Как предпочиташ да се включи "Ролевият модел"',
             'visit_time' => 'Удобно време за посещение - ден и час',
             'potential_participants_count' => 'Брой ученици, които биха взели участие',
