@@ -17,14 +17,29 @@
                     от {{$schoolVisit->professional->company->name}}
             </div>
             <div>
-                <strong> Училище: </strong> {{$schoolVisit->schoolVisitRequest->teacher->school->name}}, 
-                    {{$schoolVisit->schoolVisitRequest->teacher->school->city->name}}
+                <strong> Училище: </strong> 
+                @if(!empty($schoolVisit->schoolVisitRequest) && !empty($schoolVisit->schoolVisitRequest->teacher) && !empty($schoolVisit->schoolVisitRequest->teacher->school))
+                    {{$schoolVisit->schoolVisitRequest->teacher->school->name}}, 
+
+                    @if(!empty($schoolVisit->schoolVisitRequest->teacher->school->city))
+                        {{$schoolVisit->schoolVisitRequest->teacher->school->city->name}}
+                    @endif
+                @endif
             </div>
             <div>
                 <strong> Учител: </strong> {{$schoolVisit->schoolVisitRequest->teacher->user->fullNames}}, {{$schoolVisit->schoolVisitRequest->teacher->school->name}},  
             </div>
             <div>
-                <strong> Клас: </strong> {{$schoolVisit->schoolVisitRequest->classStage->name}}, {{$schoolVisit->schoolVisitRequest->classMajor->name}}
+                <strong> Клас: </strong> 
+                @if(!empty($schoolVisit->schoolVisitRequest))
+                    @if(!empty($schoolVisit->schoolVisitRequest->classStage))
+                        {{$schoolVisit->schoolVisitRequest->classStage->name}}, 
+                    @endif
+
+                    @if(!empty($schoolVisit->schoolVisitRequest->classMajor))
+                        {{$schoolVisit->schoolVisitRequest->classMajor->name}}
+                    @endif
+                @endif
             </div>
             
             @if(!empty($schoolVisit->date))

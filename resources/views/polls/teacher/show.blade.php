@@ -15,12 +15,27 @@
                 <strong> Учител: </strong> {{$teacherPoll->teacher->user->fullNames}}, {{$teacherPoll->teacher->school->name}},  
             </div>
             <div>
-                <strong> Клас: </strong> {{$schoolVisit->schoolVisitRequest->classStage->name}}, {{$schoolVisit->schoolVisitRequest->classMajor->name}}
+                <strong> Клас: </strong> 
+                @if(!empty($schoolVisit->schoolVisitRequest))
+                    @if(!empty($schoolVisit->schoolVisitRequest->classStage))
+                        {{$schoolVisit->schoolVisitRequest->classStage->name}}, 
+                    @endif
+
+                    @if(!empty($schoolVisit->schoolVisitRequest->classMajor))
+                        {{$schoolVisit->schoolVisitRequest->classMajor->name}}
+                    @endif
+                @endif
             </div>
             <div>
-                <strong> Ролеви модел: </strong> {{$schoolVisit->professional->user->fullNames}}, 
+                <strong> Ролеви модел: </strong> 
+                @if(!empty($schoolVisit->professional))
+                    {{$schoolVisit->professional->user->name}}, 
                     {{$schoolVisit->professional->position}}
+                @endif
+
+                @if(!empty($schoolVisit->professional) &&!empty($schoolVisit->professional->company))
                     от {{$schoolVisit->professional->company->name}}
+                @endif
             </div>
             @if(!empty($schoolVisit->date))
                 <div>
