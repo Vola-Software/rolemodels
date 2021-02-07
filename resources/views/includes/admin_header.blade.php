@@ -40,6 +40,29 @@
 			@endif
 			@if(Auth::user()->hasAdminAccess() || Auth::user()->isCompanyAdmin())
 			<li class="dropdown">
+				<a  data-toggle="dropdown" data-offset="10" data-display="static" aria-expanded="false">
+					<span>Анкети</span>
+					<i class="fas fa-chevron-down"></i>
+				</a>
+				<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-lg">
+					<div class="scroll-area-xs">
+						<div class="scrollbar-container">
+							@if(Auth::user()->hasAdminAccess())
+								<a class="dropdown-item" href="{{url('/teacher-polls')}}">
+									<i class="fas fa-poll"></i>
+									Анкети от учители
+								</a>
+							@endif
+							<a class="dropdown-item" href="{{url('/rolemodel-polls')}}">
+								<i class="fas fa-poll"></i>
+								Анкети от ролеви модели
+							</a>
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li class="dropdown">
 				<a href="{{url('users')}}">
 					<i class="fas fa-users"></i>
 					<span>Потребители</span>

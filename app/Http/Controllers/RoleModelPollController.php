@@ -9,6 +9,15 @@ use App\Models\RoleModelPoll;
 
 class RoleModelPollController extends Controller
 {
+    public function index()
+    {
+        $rolemodelPolls = RoleModelPoll::with(['schoolVisit', 'schoolVisit.schoolVisitRequest'])->get();
+
+        return view('polls.rolemodel.index', [
+            'rolemodelPolls' => $rolemodelPolls
+        ]);
+    }
+
     public function create(SchoolVisit $schoolVisit)
     {
     	return view('polls.rolemodel.create', [
