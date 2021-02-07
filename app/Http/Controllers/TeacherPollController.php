@@ -10,6 +10,15 @@ use App\Models\TeacherPoll;
 
 class TeacherPollController extends Controller
 {
+    public function index()
+    {
+        $teacherPolls = TeacherPoll::with(['schoolVisit', 'schoolVisit.schoolVisitRequest'])->get();
+
+        return view('polls.teacher.index', [
+            'teacherPolls' => $teacherPolls,
+        ]);
+    }
+
     public function create(SchoolVisit $schoolVisit)
     {
     	return view('polls.teacher.create', [
