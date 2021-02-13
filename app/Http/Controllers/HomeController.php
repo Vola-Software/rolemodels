@@ -32,12 +32,7 @@ class HomeController extends Controller
 
     public function welcome()
     {
-        $linkResolver = new GeneralLinkResolver();
-        $api = Api::get("https://rolemodelsbg.cdn.prismic.io/api/v2");
-        $response = $api->query(Predicates::at('document.tags', ['home']));
-        $richtext = RichText::asHtml($response->results[0]->data->richtext1, $linkResolver);
-
-        return view('welcome', ['richtext' => $richtext]);
+        return view('welcome');
     }
 
     public function downloadUsefulResource($fileName)

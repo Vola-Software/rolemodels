@@ -13,6 +13,12 @@
 
 Route::get('/', 'HomeController@welcome');
 Route::get('/useful-resources/{fileName}', 'HomeController@downloadUsefulResource');
+Route::get('/for-teachers', 'StaticPagesController@forTeachers')->name('forTeachers');
+Route::get('/for-role-models', 'StaticPagesController@forRoleModels')->name('forRoleModels');
+Route::get('/for-companies', 'StaticPagesController@forCompanies')->name('forCompanies');
+Route::get('/for-schools', 'StaticPagesController@forSchools')->name('forSchools');
+Route::get('/about-us', 'StaticPagesController@aboutUs')->name('aboutUs');
+Route::get('/story-of-nikoleta-hpe', 'StaticPagesController@storyOfNikoletaHPE')->name('storyOfNikoletaHPE');
 
 Auth::routes();
 
