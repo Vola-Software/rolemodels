@@ -47,7 +47,7 @@ class SchoolVisitRequestController extends Controller
             'isProfessional' => $isProfessional,
             'isCompanyAdmin' => $isCompanyAdmin,
             'hasAdminAccess' => $hasAdminAccess,
-            'pendingRequestsCount' => $pendingRequestsCount
+            'pendingRequestsCount' => $pendingRequestsCount,
         ]);
     }
 

@@ -7,7 +7,7 @@
         <div class="tab-content">
             <div class="mb-3 card">
                 <div class="card-header-tab card-header">
-                    <div class="card-header-title font-size-lg font-weight-normal">
+                    <div class="card-header-title font-size-lg font-weight-normal text-wrap">
                         Онлайн платформа, която помага на учители да организират посещения на ролеви модели в класните си стаи
                     </div>
                     <div class="btn-actions-pane-right text-capitalize">
@@ -101,6 +101,7 @@
                                     <div class="widget-title opacity-9 text-muted text-center">
                                         Ангажирай успешни професионалисти в успеха на твоите ученици. 
                                         <p> Мотивирай учениците си за високи постижения! </p>
+                                        <a href="{{url('/for-teachers')}}" class="btn btn-primary"> Виж още </a>
                                     </div>
                                 </div>
                             </div>
@@ -120,6 +121,8 @@
                                     <div class="widget-title opacity-9 text-muted text-center">
                                         Посети училище, разкажи за своята работа
                                         <p> Вдъхнови ученици! </p>
+                                        <br> <br>
+                                        <a href="{{url('/for-role-models')}}" class="btn btn-primary"> Виж още </a>
                                     </div>
                                 </div>
                             </div>
@@ -139,6 +142,8 @@
                                     <div class="widget-title opacity-9 text-muted text-center">
                                         Ангажирайте успешни хора за успеха на своите ученици
                                         <p> Намерете партньори! </p>
+                                        <br> <br>
+                                        <a href="{{url('/for-schools')}}" class="btn btn-primary"> Виж още </a>
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +154,7 @@
                         <div class="mb-3 card">
                             <div class="card-header-tab box-header">
                                 <div class="font-size-lg text-center">
-                                    За фирми
+                                    За компании
                                 </div>
                             </div>
 
@@ -158,6 +163,8 @@
                                     <div class="widget-title opacity-9 text-muted text-center">
                                         Ангажирайте своите служители в CSR кампании
                                         <p> Срещнете бъдещи таланти! </p>
+                                        <br> <br>
+                                        <a href="{{url('/for-companies')}}" class="btn btn-primary"> Виж още </a>
                                     </div>
                                 </div>
                             </div>
