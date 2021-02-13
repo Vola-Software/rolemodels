@@ -126,7 +126,11 @@
                                             @if($visitRequest->schoolVisit->professional->company)
                                                 {{$visitRequest->schoolVisit->professional->company->name}}
                                             @endif
-                                        @endif
+
+                                            @if($isTeacher && $visitRequest->schoolVisit->professional->user)
+                                                {{$visitRequest->schoolVisit->professional->user->phone}}, {{$visitRequest->schoolVisit->professional->user->email}}
+                                            @endif
+                                        @endif                                        
                                     </td>
                                     <td>
                                         @if($visitRequest->schoolVisit && $visitRequest->schoolVisit->date)
