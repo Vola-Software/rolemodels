@@ -12,11 +12,6 @@ use App\Mail\SchoolVisitRequestApproved;
 use App\Mail\SchoolVisitRequestCanceled;
 use Illuminate\Http\Request;
 
-use Prismic\Api;
-use Prismic\LinkResolver;
-use Prismic\Predicates;
-use Prismic\Dom\RichText;
-
 class SchoolVisitRequestController extends Controller
 {
     public function __construct()
