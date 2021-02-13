@@ -147,6 +147,11 @@
 					<span>Регистрация на ролеви модел</span>
 				</a>
 			</li>
+			<li class="dropdown">
+				<a href="{{url('/about-us')}}">
+					<span>За нас</span>
+				</a>
+			</li>
 			@endif
 		</ul>
 
