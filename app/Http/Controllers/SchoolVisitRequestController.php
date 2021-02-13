@@ -46,11 +46,6 @@ class SchoolVisitRequestController extends Controller
             $pendingRequestsCount = 0;
         }
 
-        $api = Api::get("https://rolemodelsbg.cdn.prismic.io/api/v2");
-        $prismic = $api->query(Predicates::at('document.tags', ['visits']), ['lang' => 'en-gb']);
-        //dd($prismic);
-        dd($prismic->results[0]->data->title[0]->text);
-
         return view('visit_requests.index', [
             'visitRequests' => $visitRequests,
             'isTeacher' => $isTeacher,
@@ -58,7 +53,6 @@ class SchoolVisitRequestController extends Controller
             'isCompanyAdmin' => $isCompanyAdmin,
             'hasAdminAccess' => $hasAdminAccess,
             'pendingRequestsCount' => $pendingRequestsCount,
-            'prismic' => $prismic
         ]);
     }
 

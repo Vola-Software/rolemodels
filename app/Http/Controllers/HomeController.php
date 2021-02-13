@@ -3,11 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Prismic\Api;
-use Prismic\LinkResolver;
-use Prismic\Predicates;
-use Prismic\Dom\RichText;
-use App\Services\GeneralLinkResolver;
 
 class HomeController extends Controller
 {

@@ -6,7 +6,7 @@
     <div class="card-body">
         <div class="tab-content">
             <div class="mb-3 card">
-                <div class="card-header-tab card-header container">
+                <div class="card-header-tab card-header">
                     <div class="card-header-title font-size-lg font-weight-normal text-wrap">
                         Онлайн платформа, която помага на учители да организират посещения на ролеви модели в класните си стаи
                     </div>
