@@ -35,6 +35,19 @@
   padding: 2rem;
 }
 
+#static-page-content a:link {
+  color: blue;
+}
+
+/* visited link */
+#static-page-content a:visited {
+  color: green;
+}
+
+/* mouse over link */
+#static-page-content a:hover {
+  color: hotpink;
+}
 
 /*------------------------------------------------------------------------------
  * Helpers
