@@ -17,7 +17,7 @@ class CreateSchoolVisitRequestsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('teachers')->onUpdate('cascade')->onDelete('cascade');
-            $table->enum('teacher_status', ['преподаващ алум', 'учител първа година', 'учител втора година']);
+            $table->enum('teacher_status', ['преподаващ алум', 'учител първа година', 'учител втора година', 'участник от програма Училища за пример', 'друго']);
             $table->string('phone_calls_time', 250)->nullable();
             $table->string('students_details', 1200)->nullable();
             $table->unsignedBigInteger('class_stage_id');

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SchoolVisit extends Model
 {
     protected $fillable = [
-        'school_visit_request_id', 'professional_id', 'date'
+        'school_visit_request_id', 'professional_id', 'date', 'teacher_poll_id', 'role_model_poll_id'
     ];
 
     protected $casts = [

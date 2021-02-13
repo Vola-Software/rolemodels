@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="role_model_profession" class="col-md-6 col-form-label text-md-right">"Ролеви модел" от коя сфера искаш да ви псоети? *</label>
+                        <label for="role_model_profession" class="col-md-6 col-form-label text-md-right">"Ролеви модел" от коя сфера искаш да ви посети? *</label>
                         <div class="col-md-6">
                             <input id="role_model_profession" type="text" class="form-control @error('role_model_profession') is-invalid @enderror" name="role_model_profession" value="{{ old('role_model_profession') }}" maxlength="190" required>
                         </div>

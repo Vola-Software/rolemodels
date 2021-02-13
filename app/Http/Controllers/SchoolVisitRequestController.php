@@ -239,14 +239,17 @@ class SchoolVisitRequestController extends Controller
             return redirect('/visits')->with('msg_delete', 'Нямате право да достъпвате търсената страница!');
         }
 
+        $isCompanyAdmin = false;
         if(\Auth::user()->role_id === config('consts.ROLE_ID_PROFESSIONAL')){
             $schoolVisits = SchoolVisit::fetchMyVisits();
         } elseif (\Auth::user()->role_id === config('consts.ROLE_ID_COMPANY_ADMIN')) {
+            $isCompanyAdmin = true;
             $schoolVisits = SchoolVisit::fetchCompanyVisits();
         }
         
         return view('visits.myvisits', [
-            'schoolVisits' => $schoolVisits
+            'schoolVisits' => $schoolVisits,
+            'isCompanyAdmin' => $isCompanyAdmin
         ]);
     }
 
