@@ -154,7 +154,7 @@
                         <div class="mb-3 card">
                             <div class="card-header-tab box-header">
                                 <div class="font-size-lg text-center">
-                                    За фирми
+                                    За компании
                                 </div>
                             </div>
 
