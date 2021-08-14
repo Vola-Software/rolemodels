@@ -58,7 +58,7 @@ class SchoolVisitRequest extends Model
 
     public static function fetchRequestsByAuthUser()
     {
-        $visitRequests = self::with(['teacher', 'teacher.user', 'teacher.school', 'teacher.subjects', 'classStage', 'classMajor', 'company', 'requestStatus', 'schoolVisit']);
+        $visitRequests = self::with(['teacher', 'teacher.user', 'teacher.school', 'teacher.subjects', 'classStage', 'classMajor', 'company', 'requestStatus', 'schoolVisit'])->where('request_status_id', '!=', config('consts.REQUEST_STATUS_ARCHIVED'));
         if(!\Auth::check()){
             //For non-registered users (from homepage)
             $visitRequests = $visitRequests->where('request_status_id', config('consts.REQUEST_STATUS_APPROVED'));
@@ -79,5 +79,10 @@ class SchoolVisitRequest extends Model
     public static function pendingRequestsQuery()
     {
         return static::where('request_status_id', config('consts.REQUEST_STATUS_PENDING'));
+    }
+
+    public static function activeRequestsQuery()
+    {
+        return static::whereIn('request_status_id', [config('consts.REQUEST_STATUS_PENDING'), config('consts.REQUEST_STATUS_APPROVED')]);
     }
 }

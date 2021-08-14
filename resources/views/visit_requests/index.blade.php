@@ -33,9 +33,17 @@
                     </a>
                 @endif
                 @if($hasAdminAccess && $pendingRequestsCount > 0)
+                    <div class="row">
                     <form action='{{ url("/visits/approve-all") }}' method="POST">
                         @csrf
                         <button class="btn btn-success approveAllBtn"> Потвърди всички </button>
+                    </form>
+                @endif
+
+                @if($hasAdminAccess)
+                    <form action='{{ url("/visits/archive-all") }}' method="POST">
+                        @csrf
+                        <button class="btn btn-dark archiveAllBtn"> Архивирай всички </button>
                     </form>
                 @endif
 				<table style="width: 100%;" id="schoolVisitRequestsTable" class="table table-hover table-striped table-bordered table-responsive">
@@ -150,6 +158,11 @@
                                     @endif
 
                                     @if($hasAdminAccess && $visitRequest->request_status_id < config('consts.REQUEST_STATUS_APPROVED'))
+                                        <form action='{{ url("/visits/archive/$visitRequest->id") }}' method="POST">
+                                          @csrf
+                                          <button class="btn btn-dark archiveBtn" title="Архивирай"> Архивирай </button>
+                                        </form>
+
                                         <form action='{{ url("/visits/approve/$visitRequest->id") }}' method="POST">
                                           @csrf
                                           <button class="btn btn-primary"> Потвърди </button>
@@ -282,8 +295,30 @@
             }
         });
 
+        $('.archiveBtn').on('click',function(e){
+            let answer = confirm('Сигурни ли сте, че искате да архивирате тази заявка?');
+
+            if(answer){
+             $(this).parents("form").submit();
+            }
+            else{
+             e.preventDefault();      
+            }
+        });
+
         $('.approveAllBtn').on('click',function(e){
             let answer = confirm('Сигурни ли сте, че искате да одобрите всички непотвърдени заявки?');
+
+            if(answer){
+             $(this).parents("form").submit();
+            }
+            else{
+             e.preventDefault();      
+            }
+        });
+
+        $('.archiveAllBtn').on('click',function(e){
+            let answer = confirm('Сигурни ли сте, че искате да архивирате всички нереализирани заявки?');
 
             if(answer){
              $(this).parents("form").submit();

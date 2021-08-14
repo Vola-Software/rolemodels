@@ -10,6 +10,7 @@ use App\Models\ClassMajor;
 use App\Http\Requests\ManageSchoolVisitRequest;
 use App\Mail\SchoolVisitRequestApproved;
 use App\Mail\SchoolVisitRequestCanceled;
+use App\Services\Util;
 use Illuminate\Http\Request;
 
 class SchoolVisitRequestController extends Controller
@@ -84,6 +85,9 @@ class SchoolVisitRequestController extends Controller
         $validated = $request->validated();
         $validated['teacher_id'] = \Auth::user()->teacher->id;
         $validated['created_by'] = \Auth::id();
+
+        $validated['school_year'] = Util::getCurrentSchoolYear();
+        $validated['term'] = Util::getCurrentSchoolTerm();
 
         $schoolVisitRequest = SchoolVisitRequest::create($validated);
         
@@ -173,6 +177,17 @@ class SchoolVisitRequestController extends Controller
         return \Redirect::back()->with('msg_success', "Посещението с ИД $schoolVisitRequest->id на учител $teacherNames беше успешно одобрено!");
     }
 
+    public function archive(SchoolVisitRequest $schoolVisitRequest)
+    {
+        $userId = \Auth::id();
+        $schoolVisitRequest->request_status_id = config('consts.REQUEST_STATUS_ARCHIVED');
+        $schoolVisitRequest->updated_by = $userId;
+        $schoolVisitRequest->save();
+
+        $teacherNames = $schoolVisitRequest->teacher->user->fullNames;
+        return \Redirect::back()->with('msg_delete', "Посещението с ИД $schoolVisitRequest->id на учител $teacherNames беше архивирано!");
+    }
+
     public function approveAll()
     {
         $userId = \Auth::id();
@@ -190,6 +205,24 @@ class SchoolVisitRequestController extends Controller
             return \Redirect::back()->with('msg_success', "Всички непотвърдени заявки за посещения бяха успешно потвърдени!");
         } else {
             return \Redirect::back()->with('msg_success', "Няма непотвърдени заявки, нищо не беше извършено!");
+        }
+    }
+
+    public function archiveAll()
+    {
+        $userId = \Auth::id();
+        $activeRequests = SchoolVisitRequest::activeRequestsQuery();
+        $activeRequestsCount = $activeRequests->get()->count();
+
+        if($activeRequestsCount > 0){
+            $activeRequests->update([
+                'request_status_id' => config('consts.REQUEST_STATUS_ARCHIVED'),
+                'updated_by' => $userId
+            ]);
+
+            return \Redirect::back()->with('msg_delete', "Всички непотвърдени заявки за посещения бяха архивирани!");
+        } else {
+            return \Redirect::back()->with('msg_delete', "Няма нереализирани заявки, нищо не беше извършено!");
         }
     }
 
