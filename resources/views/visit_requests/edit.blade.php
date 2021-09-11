@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="class_stage_id" class="col-md-6 col-form-label text-md-right">Клас, който желаеш да запишеш и "Ролевия модел" може да посети *</label>
+                        <label for="class_stage_id" class="col-md-6 col-form-label text-md-right">В кой клас са учениците, с които ще срещне ролевият модел? *</label>
                         <div class="col-md-4">
                             <select name="class_stage_id" id="class_stage_id" class="form-control" required>
                                 <option value=""> --- Изберете класове ---</option>
@@ -60,34 +60,27 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="class_major_id" class="col-md-6 col-form-label text-md-right">Ако учениците са гимназиален курс - моля запиши профила им.</label>
-                        <div class="col-md-4">
-                            <select name="class_major_id" id="class_major_id" class="form-control">
-                                <option value=""> --- Изберете специалност ---</option>
-                                @foreach($classMajors as $classMajor)
-                                    <?php $selected = Helper::is_selected($visitRequest->class_major_id, $classMajor->id); ?>
-                                    <option value="{{$classMajor->id}}" {{$selected}}> {{$classMajor->name}} </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="students_details" class="col-md-6 col-form-label text-md-right">Специфика на учениците? (нещо, което желаеш "Ролевият модел" да знае предварително, специални потребности, интереси, цели на класната стая, личната ти визия...) *</label>
+                        <label for="students_details" class="col-md-6 col-form-label text-md-right">Специфика на учениците? (разкажете ни повече за учениците : какви са техните интереси, профил, занимания. Каква е целта на посещението на ролеви модел в класната стая? Тази информация ще помогне на ролевия модел да избере посещението си.) *</label>
                         <div class="col-md-6">
                             <textarea id="students_details" name="students_details" class="form-control" required>{{$visitRequest->students_details}}</textarea>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="role_model_profession" class="col-md-6 col-form-label text-md-right">"Ролеви модел" от коя сфера искаш да ви псоети? *</label>
+                        <label for="role_model_profession" class="col-md-6 col-form-label text-md-right">Сфера на ролеви модел: *</label>
                         <div class="col-md-6">
-                            <input id="role_model_profession" type="text" class="form-control @error('role_model_profession') is-invalid @enderror" name="role_model_profession" value="{{ $visitRequest->role_model_profession }}" required>
+                            <select name="role_model_profession_id" id="role_model_profession_id" class="form-control">
+                                <option value=""> --- Изберете сфера на ролеви модел ---</option>
+                                @foreach($roleModelProfessions as $roleModelProfession)
+                                    <?php $selected = Helper::is_selected($visitRequest->role_model_profession_id, $roleModelProfession->id); ?>
+                                    <option value="{{$roleModelProfession->id}}" {{$selected}}> {{$roleModelProfession->name}} </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="meeting_type" class="col-md-6 col-form-label text-md-right">Как предпочиташ да се включи "Ролевият модел" *</label>
+                        <label for="meeting_type" class="col-md-6 col-form-label text-md-right">Тип посещение *</label>
                         <div class="col-md-6">
                             @foreach($meetingTypes as $key => $value)
                                 <?php $checked = Helper::is_checked($visitRequest->meeting_type, $key); ?>
@@ -122,9 +115,16 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="tech_equipment" class="col-md-6 col-form-label text-md-right">Училището има ли техническо оборудване? Ако да - какво? (мултимедия, телевизор, тон колонки, друго, което би било необходимо за срещата)</label>
+                        <label for="tech_equipment" class="col-md-6 col-form-label text-md-right">Техническо оборудване: (мултимедия, телевизор, тон колонки, друго, което би било необходимо за срещата)</label>
                         <div class="col-md-6">
                             <input id="tech_equipment" type="text" class="form-control @error('tech_equipment') is-invalid @enderror" name="tech_equipment" value="{{ $visitRequest->tech_equipment }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="teacher_notes" class="col-md-4 col-form-label text-md-right">Допълнителни бележки</label>
+                        <div class="col-md-6">
+                            <textarea id="teacher_notes" name="teacher_notes" class="form-control" maxlength="1200" rows="3" placeholder="Има ли нещо друго, което искаш да споделиш?">{{$visitRequest->teacher_notes)}}</textarea>
                         </div>
                     </div>
 

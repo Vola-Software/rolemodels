@@ -24,13 +24,15 @@ class CreateSchoolVisitRequestsTable extends Migration
             $table->foreign('class_stage_id')->references('id')->on('class_stages')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('class_major_id')->nullable();
             $table->foreign('class_major_id')->references('id')->on('class_majors')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('role_model_profession');
+            $table->unsignedBigInteger('role_model_profession_id')->nullable();
+            $table->foreign('role_model_profession_id')->references('id')->on('role_model_professions')->onUpdate('cascade')->onDelete('cascade');
             $table->enum('meeting_type', ['на живо', 'онлайн', 'нямам предпочитания'])->comment('live/online/both');
             $table->string('visit_time', 250);
             $table->enum('potential_participants_count', ['5-10', '11-15', '16-20', 'над 20']);
             $table->string('tech_equipment')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('teacher_notes', 300)->nullable();
 
             $table->unsignedBigInteger('request_status_id')->default(1);
             $table->foreign('request_status_id')->references('id')->on('request_statuses')->onUpdate('cascade')->onDelete('cascade');

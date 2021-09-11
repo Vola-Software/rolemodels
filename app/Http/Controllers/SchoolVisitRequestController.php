@@ -6,10 +6,13 @@ use App\Models\SchoolVisitRequest;
 use App\Models\SchoolVisit;
 use App\Models\Teacher;
 use App\Models\ClassStage;
-use App\Models\ClassMajor;
+use App\Models\RoleModelProfession;
 use App\Http\Requests\ManageSchoolVisitRequest;
+use App\Mail\SchoolVisitRequestCreated;
 use App\Mail\SchoolVisitRequestApproved;
+use App\Mail\SchoolVisitRequestRoleModel;
 use App\Mail\SchoolVisitRequestCanceled;
+use App\Services\Util;
 use Illuminate\Http\Request;
 
 class SchoolVisitRequestController extends Controller
@@ -59,14 +62,14 @@ class SchoolVisitRequestController extends Controller
     public function create()
     {
         $classStages = ClassStage::all();
-        $classMajors = ClassMajor::all();
+        $roleModelProfessions = RoleModelProfession::all();
         $teacherStatuses = config('consts.TEACHER_STATUSES');
         $meetingTypes = config('consts.MEETING_TYPES');
         $participantsCount = config('consts.PARTICIPANTS_COUT');
 
         return view('visit_requests.create', [
             'classStages' => $classStages,
-            'classMajors' => $classMajors,
+            'roleModelProfessions' => $roleModelProfessions,
             'teacherStatuses' => $teacherStatuses,
             'meetingTypes' => $meetingTypes,
             'participantsCount' => $participantsCount
@@ -85,7 +88,12 @@ class SchoolVisitRequestController extends Controller
         $validated['teacher_id'] = \Auth::user()->teacher->id;
         $validated['created_by'] = \Auth::id();
 
+        $validated['school_year'] = Util::getCurrentSchoolYear();
+        $validated['term'] = Util::getCurrentSchoolTerm();
+
         $schoolVisitRequest = SchoolVisitRequest::create($validated);
+        \Mail::to(\Auth::user()->email)
+                    ->queue(new SchoolVisitRequestCreated());
         
         return redirect('visits')->with('msg_success', 'Успешно добавихте заявка за посещение от ролеви модел!');
     }
@@ -111,7 +119,7 @@ class SchoolVisitRequestController extends Controller
     {
         $schoolVisitRequest = SchoolVisitRequest::find($id);
         $classStages = ClassStage::all();
-        $classMajors = ClassMajor::all();
+        $roleModelProfessions = RoleModelProfession::all();
         $teacherStatuses = config('consts.TEACHER_STATUSES');
         $meetingTypes = config('consts.MEETING_TYPES');
         $participantsCount = config('consts.PARTICIPANTS_COUT');
@@ -119,7 +127,7 @@ class SchoolVisitRequestController extends Controller
         return view('visit_requests.edit', [
             'visitRequest' => $schoolVisitRequest,
             'classStages' => $classStages,
-            'classMajors' => $classMajors,
+            'roleModelProfessions' => $roleModelProfessions,
             'teacherStatuses' => $teacherStatuses,
             'meetingTypes' => $meetingTypes,
             'participantsCount' => $participantsCount
@@ -173,6 +181,17 @@ class SchoolVisitRequestController extends Controller
         return \Redirect::back()->with('msg_success', "Посещението с ИД $schoolVisitRequest->id на учител $teacherNames беше успешно одобрено!");
     }
 
+    public function archive(SchoolVisitRequest $schoolVisitRequest)
+    {
+        $userId = \Auth::id();
+        $schoolVisitRequest->request_status_id = config('consts.REQUEST_STATUS_ARCHIVED');
+        $schoolVisitRequest->updated_by = $userId;
+        $schoolVisitRequest->save();
+
+        $teacherNames = $schoolVisitRequest->teacher->user->fullNames;
+        return \Redirect::back()->with('msg_delete', "Посещението с ИД $schoolVisitRequest->id на учител $teacherNames беше архивирано!");
+    }
+
     public function approveAll()
     {
         $userId = \Auth::id();
@@ -190,6 +209,24 @@ class SchoolVisitRequestController extends Controller
             return \Redirect::back()->with('msg_success', "Всички непотвърдени заявки за посещения бяха успешно потвърдени!");
         } else {
             return \Redirect::back()->with('msg_success', "Няма непотвърдени заявки, нищо не беше извършено!");
+        }
+    }
+
+    public function archiveAll()
+    {
+        $userId = \Auth::id();
+        $activeRequests = SchoolVisitRequest::activeRequestsQuery();
+        $activeRequestsCount = $activeRequests->get()->count();
+
+        if($activeRequestsCount > 0){
+            $activeRequests->update([
+                'request_status_id' => config('consts.REQUEST_STATUS_ARCHIVED'),
+                'updated_by' => $userId
+            ]);
+
+            return \Redirect::back()->with('msg_delete', "Всички непотвърдени заявки за посещения бяха архивирани!");
+        } else {
+            return \Redirect::back()->with('msg_delete', "Няма нереализирани заявки, нищо не беше извършено!");
         }
     }
 
@@ -216,12 +253,18 @@ class SchoolVisitRequestController extends Controller
             if($schoolVisitRequest->teacher && $schoolVisitRequest->teacher->user)
             {
                 \Mail::to($schoolVisitRequest->teacher->user->email)
-                    ->bcc('e.kadiyski@gmail.com')
                     ->queue(new SchoolVisitRequestApproved($schoolVisit));
             }
 
+            if($schoolVisit->professional && $schoolVisit->professional->user)
+            {
+                \Mail::to($schoolVisit->professional->user->email)
+                    ->bcc('e.kadiyski@gmail.com')
+                    ->queue(new SchoolVisitRequestRoleModel($schoolVisitRequest));
+            }
+
             $school = $schoolVisitRequest->teacher->school->name;
-            return redirect('my-visits')->with('msg_success', "Поздравления! Посещението с ИД $schoolVisitRequest->id в училище $school беше успешно заявено! Свържете се с учителя, за да уточните детайли относно посещението.");
+            return redirect('my-visits')->with('msg_success', "Поздравления! Посещението с ИД $schoolVisitRequest->id в училище $school беше успешно заявено! Свържете се с учителя до седмица, за да уговорите подробностите около посещението.");
         } catch (Exception $e) {
             \DB::rollBack();
         }

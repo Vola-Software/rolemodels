@@ -29,11 +29,12 @@ class ManageSchoolVisitRequest extends FormRequest
             'class_stage_id' => ['required', 'numeric'],
             'class_major_id' => ['nullable', 'numeric'],
             'students_details' => ['required', 'max:1200', 'string'],
-            'role_model_profession' => ['required', 'string'],
+            'role_model_profession_id' => ['required', 'numeric'],
             'meeting_type' => ['required', 'string'],
             'visit_time' => ['required', 'max:250', 'string'],
             'potential_participants_count' => ['required', 'string'],
-            'tech_equipment' => ['nullable', 'string']
+            'tech_equipment' => ['nullable', 'string'],
+            'teacher_notes' => ['nullable', 'string'],
         ];
     }
 

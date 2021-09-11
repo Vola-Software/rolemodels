@@ -64,7 +64,7 @@ class Handler extends ExceptionHandler
 
             Mail::to('e.kadiyski@zaednovchas.bg')->send(new ExceptionOccured($html));
         } catch (Exception $ex) {
-            dd($ex);
+            dd($exception);
         }
     }
 

@@ -16,6 +16,7 @@ return [
 	'REQUEST_STATUS_FINISHED' => 5,
 	'REQUEST_STATUS_DENIED' => 6, //admin denied it
 	'REQUEST_STATUS_CANCELLED' => 7,//assigned by role model but did not happen
+	'REQUEST_STATUS_ARCHIVED' => 8,//was never taken by role model (from previous semester)
 
 	'TEACHER_STATUSES' => [
 		'преподаващ алум' => 'преподаващ алум',

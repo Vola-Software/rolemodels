@@ -19,6 +19,7 @@ class RequestStatusSeeder extends Seeder
         	['name' => 'Завършен'],
         	['name' => 'Отхвърлен'],
         	['name' => 'Отменен'],
+            ['name' => 'Архивиран'],
         ]);
     }
 }
