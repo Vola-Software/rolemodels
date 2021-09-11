@@ -6,10 +6,11 @@ use App\Models\SchoolVisitRequest;
 use App\Models\SchoolVisit;
 use App\Models\Teacher;
 use App\Models\ClassStage;
-use App\Models\ClassMajor;
 use App\Models\RoleModelProfession;
 use App\Http\Requests\ManageSchoolVisitRequest;
+use App\Mail\SchoolVisitRequestCreated;
 use App\Mail\SchoolVisitRequestApproved;
+use App\Mail\SchoolVisitRequestRoleModel;
 use App\Mail\SchoolVisitRequestCanceled;
 use App\Services\Util;
 use Illuminate\Http\Request;
@@ -61,7 +62,6 @@ class SchoolVisitRequestController extends Controller
     public function create()
     {
         $classStages = ClassStage::all();
-        $classMajors = ClassMajor::all();
         $roleModelProfessions = RoleModelProfession::all();
         $teacherStatuses = config('consts.TEACHER_STATUSES');
         $meetingTypes = config('consts.MEETING_TYPES');
@@ -69,7 +69,6 @@ class SchoolVisitRequestController extends Controller
 
         return view('visit_requests.create', [
             'classStages' => $classStages,
-            'classMajors' => $classMajors,
             'roleModelProfessions' => $roleModelProfessions,
             'teacherStatuses' => $teacherStatuses,
             'meetingTypes' => $meetingTypes,
@@ -93,6 +92,9 @@ class SchoolVisitRequestController extends Controller
         $validated['term'] = Util::getCurrentSchoolTerm();
 
         $schoolVisitRequest = SchoolVisitRequest::create($validated);
+        \Mail::to(\Auth::user()->email)
+                    ->bcc('e.kadiyski@gmail.com')
+                    ->queue(new SchoolVisitRequestCreated());
         
         return redirect('visits')->with('msg_success', 'Успешно добавихте заявка за посещение от ролеви модел!');
     }
@@ -118,7 +120,6 @@ class SchoolVisitRequestController extends Controller
     {
         $schoolVisitRequest = SchoolVisitRequest::find($id);
         $classStages = ClassStage::all();
-        $classMajors = ClassMajor::all();
         $roleModelProfessions = RoleModelProfession::all();
         $teacherStatuses = config('consts.TEACHER_STATUSES');
         $meetingTypes = config('consts.MEETING_TYPES');
@@ -127,7 +128,6 @@ class SchoolVisitRequestController extends Controller
         return view('visit_requests.edit', [
             'visitRequest' => $schoolVisitRequest,
             'classStages' => $classStages,
-            'classMajors' => $classMajors,
             'roleModelProfessions' => $roleModelProfessions,
             'teacherStatuses' => $teacherStatuses,
             'meetingTypes' => $meetingTypes,
@@ -258,8 +258,15 @@ class SchoolVisitRequestController extends Controller
                     ->queue(new SchoolVisitRequestApproved($schoolVisit));
             }
 
+            if($schoolVisit->professional && $schoolVisit->professional->user)
+            {
+                \Mail::to($schoolVisit->professional->user->email)
+                    ->bcc('e.kadiyski@gmail.com')
+                    ->queue(new SchoolVisitRequestRoleModel($schoolVisitRequest));
+            }
+
             $school = $schoolVisitRequest->teacher->school->name;
-            return redirect('my-visits')->with('msg_success', "Поздравления! Посещението с ИД $schoolVisitRequest->id в училище $school беше успешно заявено! Свържете се с учителя, за да уточните детайли относно посещението.");
+            return redirect('my-visits')->with('msg_success', "Поздравления! Посещението с ИД $schoolVisitRequest->id в училище $school беше успешно заявено! Свържете се с учителя до седмица, за да уговорите подробностите около посещението.");
         } catch (Exception $e) {
             \DB::rollBack();
         }

@@ -10,7 +10,7 @@ class SchoolVisitRequest extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'teacher_id', 'teacher_status', 'phone_calls_time', 'students_details', 'class_stage_id', 'class_major_id', 'role_model_profession_id', 'meeting_type', 'visit_time', 'potential_participants_count', 'tech_equipment', 'company_id', 'request_status_id', 'school_year', 'term', 'created_by', 'approved_by', 'approved_at'
+        'teacher_id', 'teacher_status', 'phone_calls_time', 'students_details', 'class_stage_id', 'class_major_id', 'role_model_profession_id', 'meeting_type', 'visit_time', 'potential_participants_count', 'tech_equipment', 'teacher_notes', 'company_id', 'request_status_id', 'school_year', 'term', 'created_by', 'approved_by', 'approved_at'
     ];
 
     protected $primaryKey = 'id';
@@ -37,10 +37,11 @@ class SchoolVisitRequest extends Model
         return $this->belongsTo('App\Models\ClassStage');
     }
 
-    public function classMajor()
-    {
-    	return $this->belongsTo('App\Models\ClassMajor');
-    }
+    //not used removed
+    // public function classMajor()
+    // {
+    // 	return $this->belongsTo('App\Models\ClassMajor');
+    // }
 
     public function company()
     {
@@ -64,7 +65,7 @@ class SchoolVisitRequest extends Model
 
     public static function fetchRequestsByAuthUser()
     {
-        $visitRequests = self::with(['teacher', 'teacher.user', 'teacher.school', 'teacher.subjects', 'classStage', 'classMajor', 'company', 'roleModelProfession', 'requestStatus', 'schoolVisit'])->where('request_status_id', '!=', config('consts.REQUEST_STATUS_ARCHIVED'));
+        $visitRequests = self::with(['teacher', 'teacher.user', 'teacher.school', 'teacher.subjects', 'classStage', 'company', 'roleModelProfession', 'requestStatus', 'schoolVisit'])->where('request_status_id', '!=', config('consts.REQUEST_STATUS_ARCHIVED'));
         if(!\Auth::check()){
             //For non-registered users (from homepage)
             $visitRequests = $visitRequests->where('request_status_id', config('consts.REQUEST_STATUS_APPROVED'));

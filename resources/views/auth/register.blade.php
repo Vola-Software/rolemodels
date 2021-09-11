@@ -201,7 +201,21 @@
                                 </div>
                             </div>
                         @endif
-                        
+
+                        <div class="form-group row">
+                            <div class="form-check offset-md-1 col-md-10">
+                                <input type="checkbox" name="privacy_policy" class="form-check-input" value="1" id="privacy_policy" required>
+                                <label class="form-check-label" for="privacy_policy">
+                                    @if($role == 'teacher')
+                                        С попълването на тази форма се съгласявате "Заедно в час" да обработва вашите лични данни (имена, имейл, телефон, месторабота) с цел оптимизиране на процеса за свързване с ролеви модел. Ролевият модел, който заяви посещение във Вашата класна стая ще има достъп до Вашите данни.
+                                    @else
+                                        С попълването на тази форма се съгласявате "Заедно в час" да обработва вашите лични данни (имена, имейл, телефон, месторабота) с цел оптимизиране на свързването с учител. Когато изберете класна стая за посещение, учителят ще има достъп до Вашите лични данни.
+                                    @endif
+                                    <br>
+                                    С политиката за поверителност и обработка на лични данни на "Заедно в час" може да се запознаете на този линк <a href="https://zaednovchas.bg/privacy-policy" target="_blank">https://zaednovchas.bg/privacy-policy</a>
+                                </label>
+                            </div>
+                        </div>                        
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

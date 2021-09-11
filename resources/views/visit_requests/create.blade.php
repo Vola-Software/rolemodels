@@ -46,26 +46,13 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="class_stage_id" class="col-md-4 col-form-label text-md-right">Клас, който желаеш да запишеш и "Ролевия модел" може да посети *</label>
+                        <label for="class_stage_id" class="col-md-4 col-form-label text-md-right">В кой клас са учениците, с които ще срещне ролевият модел? *</label>
                         <div class="col-md-4">
                             <select name="class_stage_id" id="class_stage_id" class="form-control" required>
                                 <option value=""> --- Изберете класове ---</option>
                                 @foreach($classStages as $classStage)
                                     <?php $selected = Helper::is_selected(old('class_stage_id'), $classStage->id); ?>
                                     <option value="{{$classStage->id}}" {{$selected}}> {{$classStage->name}} </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="class_major_id" class="col-md-4 col-form-label text-md-right">Ако учениците са гимназиален курс - моля запиши профила им.</label>
-                        <div class="col-md-4">
-                            <select name="class_major_id" id="class_major_id" class="form-control">
-                                <option value=""> --- Изберете специалност ---</option>
-                                @foreach($classMajors as $classMajor)
-                                    <?php $selected = Helper::is_selected(old('class_major_id'), $classMajor->id); ?>
-                                    <option value="{{$classMajor->id}}" {{$selected}}> {{$classMajor->name}} </option>
                                 @endforeach
                             </select>
                         </div>
@@ -130,6 +117,13 @@
                         <label for="tech_equipment" class="col-md-4 col-form-label text-md-right">Техническо оборудване: </label>
                         <div class="col-md-8">
                             <input id="tech_equipment" type="text" class="form-control @error('tech_equipment') is-invalid @enderror" name="tech_equipment" value="{{ old('tech_equipment') }}" placeholder="мултимедия, телевизор, тон колонки, друго, което би било необходимо за срещата">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="teacher_notes" class="col-md-4 col-form-label text-md-right">Допълнителни бележки</label>
+                        <div class="col-md-6">
+                            <textarea id="teacher_notes" name="teacher_notes" class="form-control" maxlength="1200" rows="3" placeholder="Има ли нещо друго, което искаш да споделиш?">{{old('teacher_notes')}}</textarea>
                         </div>
                     </div>
 

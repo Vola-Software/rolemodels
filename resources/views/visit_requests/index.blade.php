@@ -197,13 +197,13 @@
                                             $visitRequest->teacher->school->city->name : '-'}}"
                                         data-phone-call-time="{{$visitRequest->phone_calls_time}}"
                                         data-classes="{{$visitRequest->classStage ? $visitRequest->classStage->name : '-'}}"
-                                        data-class-profile="{{$visitRequest->classMajor ? $visitRequest->classMajor->name : '-'}}"
                                         data-students-details="{{$visitRequest->students_details}}"
                                         data-role-model-profession="{{$visitRequest->roleModelProfession ? $visitRequest->roleModelProfession->name : '-'}}"
                                         data-meeting-type="{{$visitRequest->meeting_type}}"
                                         data-visit-time="{{$visitRequest->visit_time}}"
                                         data-students-count="{{$visitRequest->potential_participants_count}}"
                                         data-tech-equipment="{{$visitRequest->tech_equipment}}"
+                                        data-teacher-notes="{{$visitRequest->teacher_notes}}"
                                         data-status="{{$visitRequest->requestStatus ? $visitRequest->requestStatus->name : '-'}}"
                                         data-created-at="{{$visitRequest->created_at}}"
                                     >
@@ -240,13 +240,13 @@
         <p><strong>Населено място: </strong> <span class="city"></span></p>
         <p><strong>Удобно време за телефонен разговор: </strong> <span class="phone-call-time"></span></p>
         <p><strong>Класове: </strong> <span class="classes"></span></p>
-        <p><strong>Профил: </strong> <span class="class-profile"></span></p>
         <p><strong>Специфика на учениците: </strong> <span class="students-details"></span></p>
         <p><strong>Сфера на ролеви модел: </strong> <span class="role-model-profession"></span></p>
         <p><strong>Тип посещение: </strong> <span class="meeting-type"></span></p>
         <p><strong>Удобно време за посещение: </strong> <span class="visit-time"></span></p>
         <p><strong>Брой ученици, които биха взели участие: </strong> <span class="students-count"></span></p>
         <p><strong>Техническо оборудване: </strong> <span class="tech-equipment"></span></p>
+        <p><strong>Допълнителни бележки: </strong> <span class="teacher-notes"></span></p>
         <p><strong>Статус: </strong> <span class="status"></span></p>
         <p><strong>Дата на създаване: </strong> <span class="created-at"></span></p>
       </div>
@@ -264,7 +264,9 @@
         @if($isProfessional || $isCompanyAdmin)
             <form class="approve-request-form" action='' method="POST">
               @csrf
-              <button class="btn btn-success"> Заяви посещение! </button>
+              <button class="btn btn-success"> 
+                <h5> Заяви посещение! </h5> 
+              </button>
             </form>
         @endif
       </div>
@@ -343,13 +345,13 @@
           var city = button.data('city')
           var phoneCallTime = button.data('phone-call-time')
           var classes = button.data('classes')
-          var classProfile = button.data('class-profile')
           var studentsDetails = button.data('students-details')
           var roleModelProfession = button.data('role-model-profession')
           var meetingType = button.data('meeting-type')
           var visitTime = button.data('visit-time')
           var studentsCount = button.data('students-count')
           var techEquipment = button.data('tech-equipment')
+          var teacherNotes = button.data('teacher-notes')
           var status = button.data('status')
           var createdAt = button.data('created-at')
 
@@ -364,13 +366,13 @@
           modal.find('.city').text(city)
           modal.find('.phone-call-time').text(phoneCallTime)
           modal.find('.classes').text(classes)
-          modal.find('.class-profile').text(classProfile)
           modal.find('.students-details').text(studentsDetails)
           modal.find('.role-model-profession').text(roleModelProfession)
           modal.find('.meeting-type').text(meetingType)
           modal.find('.visit-time').text(visitTime)
           modal.find('.students-count').text(studentsCount)
           modal.find('.tech-equipment').text(techEquipment)
+          modal.find('.teacher-notes').text(teacherNotes)
           modal.find('.status').text(status)
           modal.find('.created-at').text(createdAt)
 
