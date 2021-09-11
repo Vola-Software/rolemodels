@@ -124,7 +124,7 @@
                     <div class="form-group row">
                         <label for="teacher_notes" class="col-md-4 col-form-label text-md-right">Допълнителни бележки</label>
                         <div class="col-md-6">
-                            <textarea id="teacher_notes" name="teacher_notes" class="form-control" maxlength="1200" rows="3" placeholder="Има ли нещо друго, което искаш да споделиш?">{{$visitRequest->teacher_notes')}}</textarea>
+                            <textarea id="teacher_notes" name="teacher_notes" class="form-control" maxlength="1200" rows="3" placeholder="Има ли нещо друго, което искаш да споделиш?">{{$visitRequest->teacher_notes)}}</textarea>
                         </div>
                     </div>
 

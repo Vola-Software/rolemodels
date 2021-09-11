@@ -62,9 +62,6 @@
                                 <th>Удобно време за тел. разговор</th>
                             @endif
                             <th>Класове</th>
-                            @if($isTeacher || $isProfessional)
-                                <th>Специалност</th>
-                            @endif
                             <th>Сфера на ролеви модел</th>
                             @if(\Auth::check() && !$isProfessional)
                                 <th>Статус</th>
@@ -111,14 +108,11 @@
                                         {{$visitRequest->classStage->name}}
                                     @endif
                                 </td>
-                                 @if($isTeacher || $isProfessional)
-                                    <td>
-                                        @if($visitRequest->classMajor)
-                                            {{$visitRequest->classMajor->name}}
-                                        @endif
-                                    </td>
-                                @endif
-                                <td>{{$visitRequest->role_model_profession}}</td>
+                                <td>
+                                    @if($visitRequest->roleModelProfession)
+                                        {{$visitRequest->roleModelProfession->name}}
+                                    @endif
+                                </td>
 
                                 @if(\Auth::check() && !$isProfessional)
                                     <td>
