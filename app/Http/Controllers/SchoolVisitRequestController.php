@@ -7,6 +7,7 @@ use App\Models\SchoolVisit;
 use App\Models\Teacher;
 use App\Models\ClassStage;
 use App\Models\ClassMajor;
+use App\Models\RoleModelProfession;
 use App\Http\Requests\ManageSchoolVisitRequest;
 use App\Mail\SchoolVisitRequestApproved;
 use App\Mail\SchoolVisitRequestCanceled;
@@ -61,6 +62,7 @@ class SchoolVisitRequestController extends Controller
     {
         $classStages = ClassStage::all();
         $classMajors = ClassMajor::all();
+        $roleModelProfessions = RoleModelProfession::all();
         $teacherStatuses = config('consts.TEACHER_STATUSES');
         $meetingTypes = config('consts.MEETING_TYPES');
         $participantsCount = config('consts.PARTICIPANTS_COUT');
@@ -68,6 +70,7 @@ class SchoolVisitRequestController extends Controller
         return view('visit_requests.create', [
             'classStages' => $classStages,
             'classMajors' => $classMajors,
+            'roleModelProfessions' => $roleModelProfessions,
             'teacherStatuses' => $teacherStatuses,
             'meetingTypes' => $meetingTypes,
             'participantsCount' => $participantsCount
@@ -116,6 +119,7 @@ class SchoolVisitRequestController extends Controller
         $schoolVisitRequest = SchoolVisitRequest::find($id);
         $classStages = ClassStage::all();
         $classMajors = ClassMajor::all();
+        $roleModelProfessions = RoleModelProfession::all();
         $teacherStatuses = config('consts.TEACHER_STATUSES');
         $meetingTypes = config('consts.MEETING_TYPES');
         $participantsCount = config('consts.PARTICIPANTS_COUT');
@@ -124,6 +128,7 @@ class SchoolVisitRequestController extends Controller
             'visitRequest' => $schoolVisitRequest,
             'classStages' => $classStages,
             'classMajors' => $classMajors,
+            'roleModelProfessions' => $roleModelProfessions,
             'teacherStatuses' => $teacherStatuses,
             'meetingTypes' => $meetingTypes,
             'participantsCount' => $participantsCount

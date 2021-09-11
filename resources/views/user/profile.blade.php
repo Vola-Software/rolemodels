@@ -38,9 +38,9 @@ crossorigin="anonymous"></script>
                             @enderror
                         </div>
 
-                        <label for="middle_name" class="col-md-1 col-form-label text-md-right">Презиме *</label>
+                        <label for="middle_name" class="col-md-1 col-form-label text-md-right">Презиме</label>
                         <div class="col-md-3">
-                            <input id="middle_name" type="text" class="form-control @error('middle_name') is-invalid @enderror" name="middle_name" value="{{ $user->middle_name }}" required autocomplete="middle_name" >
+                            <input id="middle_name" type="text" class="form-control @error('middle_name') is-invalid @enderror" name="middle_name" value="{{ $user->middle_name }}" autocomplete="middle_name" >
 
                             @error('middle_name')
                             <span class="invalid-feedback" role="alert">
@@ -96,7 +96,7 @@ crossorigin="anonymous"></script>
                        </div>
 
                        <div class="form-group row">
-                           <label for="subject_id" class="col-md-4 col-form-label text-md-right">Преподавани предмети *</label>
+                           <label for="subject_id" class="col-md-4 col-form-label text-md-right">Преподаван(и) предмет(и) *</label>
                            <div class="col-md-4">
                                <select name="subject_ids[]" class="form-control" id="subject_ids" multiple required>
                                    <option value="">--- Изберете предмет(и) ---</option>

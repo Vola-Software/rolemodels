@@ -10,7 +10,7 @@ class SchoolVisitRequest extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'teacher_id', 'teacher_status', 'phone_calls_time', 'students_details', 'class_stage_id', 'class_major_id', 'role_model_profession', 'meeting_type', 'visit_time', 'potential_participants_count', 'tech_equipment', 'company_id', 'request_status_id', 'school_year', 'term', 'created_by', 'approved_by', 'approved_at'
+        'teacher_id', 'teacher_status', 'phone_calls_time', 'students_details', 'class_stage_id', 'class_major_id', 'role_model_profession_id', 'meeting_type', 'visit_time', 'potential_participants_count', 'tech_equipment', 'company_id', 'request_status_id', 'school_year', 'term', 'created_by', 'approved_by', 'approved_at'
     ];
 
     protected $primaryKey = 'id';
@@ -20,6 +20,7 @@ class SchoolVisitRequest extends Model
         'teacher_id' => 'integer',
         'class_stage_id' => 'integer',
         'class_major_id' => 'integer',
+        'role_model_profession_id' => 'integer',
         'company_id' => 'integer',
         'request_status_id' => 'integer',
         'created_by' => 'integer',
@@ -46,6 +47,11 @@ class SchoolVisitRequest extends Model
     	return $this->belongsTo('App\Models\Company');
     }
 
+    public function roleModelProfession()
+    {
+        return $this->belongsTo('App\Models\RoleModelProfession');
+    }
+
     public function schoolVisit()
     {
         return $this->hasOne('App\Models\SchoolVisit');
@@ -58,7 +64,7 @@ class SchoolVisitRequest extends Model
 
     public static function fetchRequestsByAuthUser()
     {
-        $visitRequests = self::with(['teacher', 'teacher.user', 'teacher.school', 'teacher.subjects', 'classStage', 'classMajor', 'company', 'requestStatus', 'schoolVisit'])->where('request_status_id', '!=', config('consts.REQUEST_STATUS_ARCHIVED'));
+        $visitRequests = self::with(['teacher', 'teacher.user', 'teacher.school', 'teacher.subjects', 'classStage', 'classMajor', 'company', 'roleModelProfession', 'requestStatus', 'schoolVisit'])->where('request_status_id', '!=', config('consts.REQUEST_STATUS_ARCHIVED'));
         if(!\Auth::check()){
             //For non-registered users (from homepage)
             $visitRequests = $visitRequests->where('request_status_id', config('consts.REQUEST_STATUS_APPROVED'));

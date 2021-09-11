@@ -73,21 +73,27 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="students_details" class="col-md-6 col-form-label text-md-right">Специфика на учениците? (нещо, което желаеш "Ролевият модел" да знае предварително, специални потребности, интереси, цели на класната стая, личната ти визия...) *</label>
+                        <label for="students_details" class="col-md-6 col-form-label text-md-right">Специфика на учениците? (разкажете ни повече за учениците : какви са техните интереси, профил, занимания. Каква е целта на посещението на ролеви модел в класната стая? Тази информация ще помогне на ролевия модел да избере посещението си.) *</label>
                         <div class="col-md-6">
                             <textarea id="students_details" name="students_details" class="form-control" required>{{$visitRequest->students_details}}</textarea>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="role_model_profession" class="col-md-6 col-form-label text-md-right">"Ролеви модел" от коя сфера искаш да ви псоети? *</label>
+                        <label for="role_model_profession" class="col-md-6 col-form-label text-md-right">Сфера на ролеви модел: *</label>
                         <div class="col-md-6">
-                            <input id="role_model_profession" type="text" class="form-control @error('role_model_profession') is-invalid @enderror" name="role_model_profession" value="{{ $visitRequest->role_model_profession }}" required>
+                            <select name="role_model_profession_id" id="role_model_profession_id" class="form-control">
+                                <option value=""> --- Изберете сфера на ролеви модел ---</option>
+                                @foreach($roleModelProfessions as $roleModelProfession)
+                                    <?php $selected = Helper::is_selected($visitRequest->role_model_profession_id, $roleModelProfession->id); ?>
+                                    <option value="{{$roleModelProfession->id}}" {{$selected}}> {{$roleModelProfession->name}} </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="meeting_type" class="col-md-6 col-form-label text-md-right">Как предпочиташ да се включи "Ролевият модел" *</label>
+                        <label for="meeting_type" class="col-md-6 col-form-label text-md-right">Тип посещение *</label>
                         <div class="col-md-6">
                             @foreach($meetingTypes as $key => $value)
                                 <?php $checked = Helper::is_checked($visitRequest->meeting_type, $key); ?>
@@ -122,7 +128,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="tech_equipment" class="col-md-6 col-form-label text-md-right">Училището има ли техническо оборудване? Ако да - какво? (мултимедия, телевизор, тон колонки, друго, което би било необходимо за срещата)</label>
+                        <label for="tech_equipment" class="col-md-6 col-form-label text-md-right">Техническо оборудване: (мултимедия, телевизор, тон колонки, друго, което би било необходимо за срещата)</label>
                         <div class="col-md-6">
                             <input id="tech_equipment" type="text" class="form-control @error('tech_equipment') is-invalid @enderror" name="tech_equipment" value="{{ $visitRequest->tech_equipment }}">
                         </div>

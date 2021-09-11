@@ -199,7 +199,7 @@
                                         data-classes="{{$visitRequest->classStage ? $visitRequest->classStage->name : '-'}}"
                                         data-class-profile="{{$visitRequest->classMajor ? $visitRequest->classMajor->name : '-'}}"
                                         data-students-details="{{$visitRequest->students_details}}"
-                                        data-role-model-profession="{{$visitRequest->role_model_profession}}"
+                                        data-role-model-profession="{{$visitRequest->roleModelProfession ? $visitRequest->roleModelProfession->name : '-'}}"
                                         data-meeting-type="{{$visitRequest->meeting_type}}"
                                         data-visit-time="{{$visitRequest->visit_time}}"
                                         data-students-count="{{$visitRequest->potential_participants_count}}"

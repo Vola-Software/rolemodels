@@ -26,7 +26,7 @@
 					@csrf
 
                     <div class="form-group row">
-                        <label for="teacher_status" class="col-md-6 col-form-label text-md-right">Аз съм *</label>
+                        <label for="teacher_status" class="col-md-4 col-form-label text-md-right">Аз съм *</label>
                         <div class="col-md-4">
                             <select name="teacher_status" id="teacher_status" class="form-control" required>
                                 <option value=""> --- Изберете опция ---</option>
@@ -39,14 +39,14 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="phone_calls_time" class="col-md-6 col-form-label text-md-right">Удобно време за телефонен разговор (при необходимност) *</label>
+                        <label for="phone_calls_time" class="col-md-4 col-form-label text-md-right">Удобно време за телефонен разговор (при необходимност) *</label>
                         <div class="col-md-6">
                             <input id="phone_calls_time" type="text" class="form-control @error('phone_calls_time') is-invalid @enderror" name="phone_calls_time" value="{{ old('phone_calls_time') }}" maxlength="250" required autofocus>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="class_stage_id" class="col-md-6 col-form-label text-md-right">Клас, който желаеш да запишеш и "Ролевия модел" може да посети *</label>
+                        <label for="class_stage_id" class="col-md-4 col-form-label text-md-right">Клас, който желаеш да запишеш и "Ролевия модел" може да посети *</label>
                         <div class="col-md-4">
                             <select name="class_stage_id" id="class_stage_id" class="form-control" required>
                                 <option value=""> --- Изберете класове ---</option>
@@ -59,7 +59,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="class_major_id" class="col-md-6 col-form-label text-md-right">Ако учениците са гимназиален курс - моля запиши профила им.</label>
+                        <label for="class_major_id" class="col-md-4 col-form-label text-md-right">Ако учениците са гимназиален курс - моля запиши профила им.</label>
                         <div class="col-md-4">
                             <select name="class_major_id" id="class_major_id" class="form-control">
                                 <option value=""> --- Изберете специалност ---</option>
@@ -72,21 +72,27 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="students_details" class="col-md-6 col-form-label text-md-right">Специфика на учениците? (нещо, което желаеш "Ролевият модел" да знае предварително, специални потребности, интереси, цели на класната стая, личната ти визия...) *</label>
+                        <label for="students_details" class="col-md-4 col-form-label text-md-right">Специфика на учениците? *</label>
                         <div class="col-md-6">
-                            <textarea id="students_details" name="students_details" class="form-control" maxlength="1200" required>{{old('students_details')}}</textarea>
+                            <textarea id="students_details" name="students_details" class="form-control" maxlength="1200" rows="3" placeholder="разкажете ни повече за учениците : какви са техните интереси, профил, занимания. Каква е целта на посещението на ролеви модел в класната стая? Тази информация ще помогне на ролевия модел да избере посещението си" required>{{old('students_details')}}</textarea>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="role_model_profession" class="col-md-6 col-form-label text-md-right">"Ролеви модел" от коя сфера искаш да ви посети? *</label>
+                        <label for="role_model_profession_id" class="col-md-4 col-form-label text-md-right">Сфера на ролеви модел: *</label>
                         <div class="col-md-6">
-                            <input id="role_model_profession" type="text" class="form-control @error('role_model_profession') is-invalid @enderror" name="role_model_profession" value="{{ old('role_model_profession') }}" maxlength="190" required>
+                            <select name="role_model_profession_id" id="role_model_profession_id" class="form-control">
+                                <option value=""> --- Изберете сфера на ролеви модел ---</option>
+                                @foreach($roleModelProfessions as $roleModelProfession)
+                                    <?php $selected = Helper::is_selected(old('role_model_profession_id'), $roleModelProfession->id); ?>
+                                    <option value="{{$roleModelProfession->id}}" {{$selected}}> {{$roleModelProfession->name}} </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="meeting_type" class="col-md-6 col-form-label text-md-right">Как предпочиташ да се включи "Ролевият модел" *</label>
+                        <label for="meeting_type" class="col-md-4 col-form-label text-md-right">Тип посещение: *</label>
                         <div class="col-md-6">
                             @foreach($meetingTypes as $key => $value)
                                 <?php $checked = Helper::is_checked(old('meeting_type'), $key); ?>
@@ -99,14 +105,14 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="visit_time" class="col-md-6 col-form-label text-md-right">Удобно време за посещение - ден и час (кога имаш часове с този клас или кое е удобно извънкласно време; можеш да добавиш няколко възможности) *</label>
-                        <div class="col-md-6">
-                            <input id="visit_time" type="text" class="form-control @error('visit_time') is-invalid @enderror" name="visit_time" value="{{ old('visit_time') }}" maxlength="250" required>
+                        <label for="visit_time" class="col-md-4 col-form-label text-md-right">Удобно време за посещение - ден и час *</label>
+                        <div class="col-md-8">
+                            <input id="visit_time" type="text" class="form-control @error('visit_time') is-invalid @enderror" name="visit_time" value="{{ old('visit_time') }}" maxlength="250" placeholder="кога имаш часове с този клас или кое е удобно извънкласно време; можеш да добавиш няколко опции" required>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="potential_participants_count" class="col-md-6 col-form-label text-md-right">
+                        <label for="potential_participants_count" class="col-md-4 col-form-label text-md-right">
                             Брой ученици, които биха взели участие *
                         </label>
                         <div class="col-md-6">
@@ -121,9 +127,9 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="tech_equipment" class="col-md-6 col-form-label text-md-right">Училището има ли техническо оборудване? Ако да - какво? (мултимедия, телевизор, тон колонки, друго, което би било необходимо за срещата)</label>
-                        <div class="col-md-6">
-                            <input id="tech_equipment" type="text" class="form-control @error('tech_equipment') is-invalid @enderror" name="tech_equipment" value="{{ old('tech_equipment') }}">
+                        <label for="tech_equipment" class="col-md-4 col-form-label text-md-right">Техническо оборудване: </label>
+                        <div class="col-md-8">
+                            <input id="tech_equipment" type="text" class="form-control @error('tech_equipment') is-invalid @enderror" name="tech_equipment" value="{{ old('tech_equipment') }}" placeholder="мултимедия, телевизор, тон колонки, друго, което би било необходимо за срещата">
                         </div>
                     </div>
 
