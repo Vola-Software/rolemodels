@@ -93,7 +93,6 @@ class SchoolVisitRequestController extends Controller
 
         $schoolVisitRequest = SchoolVisitRequest::create($validated);
         \Mail::to(\Auth::user()->email)
-                    ->bcc('e.kadiyski@gmail.com')
                     ->queue(new SchoolVisitRequestCreated());
         
         return redirect('visits')->with('msg_success', 'Успешно добавихте заявка за посещение от ролеви модел!');
@@ -254,7 +253,6 @@ class SchoolVisitRequestController extends Controller
             if($schoolVisitRequest->teacher && $schoolVisitRequest->teacher->user)
             {
                 \Mail::to($schoolVisitRequest->teacher->user->email)
-                    ->bcc('e.kadiyski@gmail.com')
                     ->queue(new SchoolVisitRequestApproved($schoolVisit));
             }
 
