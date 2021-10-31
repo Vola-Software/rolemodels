@@ -32,7 +32,7 @@ class CreateSchoolVisitRequestsTable extends Migration
             $table->string('tech_equipment')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('teacher_notes', 300)->nullable();
+            $table->string('teacher_notes', 1200)->nullable();
 
             $table->unsignedBigInteger('request_status_id')->default(1);
             $table->foreign('request_status_id')->references('id')->on('request_statuses')->onUpdate('cascade')->onDelete('cascade');

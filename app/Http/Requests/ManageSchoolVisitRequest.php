@@ -34,7 +34,7 @@ class ManageSchoolVisitRequest extends FormRequest
             'visit_time' => ['required', 'max:250', 'string'],
             'potential_participants_count' => ['required', 'string'],
             'tech_equipment' => ['nullable', 'string'],
-            'teacher_notes' => ['nullable', 'string'],
+            'teacher_notes' => ['nullable', 'string', 'max:1200'],
         ];
     }
 

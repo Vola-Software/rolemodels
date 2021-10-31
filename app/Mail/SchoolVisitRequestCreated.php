@@ -18,6 +18,7 @@ class SchoolVisitRequestCreated extends Mailable
     public function build()
     {
         return $this->subject('Създадена заявка за посещение от ролеви модел!')
+                    ->attach(public_path('/useful-resources/Role_models_teachers_guide.pdf'))
                     ->markdown('emails.school-visit-request-created');
     }
 }

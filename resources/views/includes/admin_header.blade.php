@@ -98,17 +98,18 @@
 								Вътрешноорганизационна политика за действия при деца в риск
 							</a>
 							@if(Auth::user()->isTeacher())
-								<a class="dropdown-item" href="{{url('/useful-resources/Checklist.pdf')}}">
+								<a class="dropdown-item" href="{{url('/useful-resources/Role_models_teachers_guide.pdf')}}">
 									<i class="fas fa-file-download"></i>
-									Чеклист за работа с ролеви модел
-								</a>
-								<a class="dropdown-item" href="{{url('/useful-resources/Важни_важности_за_ролевите_модели_в_класната_стая.pdf')}}">
-									<i class="fas fa-file-download"></i>
-									Важни детайли
+									Ръководство
 								</a>
 								<a class="dropdown-item" href="{{url('/useful-resources/История_от_класната_стая.pdf')}}">
 									<i class="fas fa-file-download"></i>
 									История от класната стая
+								</a>
+							@elseif(Auth::user()->isProfessional())
+								<a class="dropdown-item" href="{{url('/useful-resources/Role_model_guide.pdf')}}">
+									<i class="fas fa-file-download"></i>
+									Ръководство
 								</a>
 							@endif
 						</div>
