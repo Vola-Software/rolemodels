@@ -9,6 +9,7 @@ use App\Models\Subject;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Professional;
+use Illuminate\Http\Request;
 use Auth;
 
 class UserController extends Controller
@@ -24,6 +25,25 @@ class UserController extends Controller
             'professionals' => $professionals,
             'admins' => $admins
         ]);
+    }
+
+    public function destroy(User $user, Request $request)
+    {
+        //TODO: check if there are active school visit requests
+        if(Auth::id() != $user->id) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'confirm_delete' => 'required'
+        ]);
+        if($validated['confirm_delete'] != 'delete') {
+            return redirect('/profile')->with('msg_delete', "Грешка при изтриване на профил! За да изтриете профила си въведете думата 'delete' в текстовото поле!");  
+        }
+
+        $user->delete();
+
+        return redirect('/');
     }
 
     public function profile()

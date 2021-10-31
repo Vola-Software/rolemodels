@@ -144,7 +144,34 @@ crossorigin="anonymous"></script>
                         </button>
                     </div>
                 </div>
-            </form>
+              </form>
+
+              <hr>
+              <form method="POST" action='{{ url("profile/delete/$user->id") }}'>
+                @csrf
+                @method('DELETE')
+
+                <div class="form-group row mb-0">
+                  <div class="col-md-6 offset-md-3">
+                      <label for="confirm_delete" class="col-md-8 col-form-label text-md-right">За да изтриете профила си моля въведете думата 'delete'</label>
+                      <div class="col-md-3">
+                          <input id="confirm_delete" type="text" class="form-control @error('confirm_delete') is-invalid @enderror" name="confirm_delete" required >
+                          @error('confirm_delete')
+                             <span class="invalid-feedback" role="alert">
+                                 <strong>{{ $message }}</strong>
+                             </span>
+                          @enderror
+                      </div>
+                  </div>
+                </div>
+                <p></p>
+
+                  <div class="form-group row mb-0">
+                    <div class="col-md-6 offset-md-4">
+                        <input type="submit" name="delete" value="Изтрий" class="btn btn-danger">
+                    </div>
+                </div>
+              </form>
         </div>
     </div>
 </div>

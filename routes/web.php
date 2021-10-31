@@ -28,6 +28,7 @@ Route::resource('/visits', 'SchoolVisitRequestController');
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile', 'UserController@profile');
     Route::post('/profile/store', 'UserController@profileStore');
+    Route::delete('/profile/delete/{user}', 'UserController@destroy');
 
     Route::get('/users', 'UserController@index');
     Route::resource('/schools', 'SchoolController');
